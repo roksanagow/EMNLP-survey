@@ -1,0 +1,23 @@
+# Install torch + torchvision first via setup_env.sh (PyTorch 2.14, CUDA 12.8 build);
+# a bare `pip install -r` would pull the CUDA-13-only PyTorch 2.15 from PyPI.
+torch>=2.6
+transformers==5.21.0
+accelerate>=1.10
+huggingface_hub
+safetensors
+tokenizers
+sentencepiece
+protobuf
+jinja2
+pyyaml
+
+# Multimodal processors (Qwen3.6/3.8, Gemma 3/4) need these even for text-only prompts
+torchvision
+pillow
+
+# Mistral tokenizer backend (Magistral)
+mistral-common>=1.8.6
+
+# Collecting answers for coding
+pandas
+openpyxl

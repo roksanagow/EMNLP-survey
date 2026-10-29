@@ -1,0 +1,137 @@
+# Open-weight chat models for the survey (all <= ~35B parameters).
+#
+# Generation policy (applies to every model):
+#   * sampling settings (do_sample, temperature, top_p, top_k, ...) come from each
+#     repo's own generation_config.json -- nothing is overridden;
+#   * the chat template is applied with its own defaults (no system prompt added by
+#     us, no thinking switches flipped). Some templates insert their own system text
+#     (e.g. Llama 3.1, gpt-oss); the exact prompt is saved with every answer;
+#   * the only setting we must choose is max_new_tokens (transformers otherwise
+#     stops after 20 tokens). It is a cap, not a target.
+#
+# Fields
+#   hf_id          Hugging Face repo id
+#   revision       commit to pin (filled by scripts/download_models.py -> config/revisions.lock.yaml)
+#   loader         causal      -> AutoTokenizer + AutoModelForCausalLM
+#                  multimodal  -> AutoProcessor + AutoModelForMultimodalLM / ImageTextToText (text-only use)
+#                  class       -> AutoTokenizer + transformers.<model_class>
+#   tokenizer_kwargs / model_kwargs   extra from_pretrained kwargs
+#   gpus           GPUs to request per GPU type (bf16 weights + headroom for a long answer)
+#   reasoning      what the model does by default: on | off | none (documentation only)
+#   tier           core | optional
+#   enabled        false skips the model in download/submit/collect
+
+defaults:
+  dtype: bfloat16
+  max_new_tokens: 32768
+  seed: 2026
+  time: "12:0:0"        # Slurm walltime per model (both conditions)
+
+models:
+  # ---------------- core ----------------
+  - key: qwen3.8-27b
+    hf_id: Qwen/Qwen3.8-27B
+    loader: multimodal
+    gpus: {a100: 2, h100: 1}
+    reasoning: on            # <think> ... </think>
+    tier: core
+    enabled: true
+    notes: Hybrid Gated DeltaNet + attention. Optional flash-linear-attention / causal-conv1d speed it up.
+
+  - key: gemma-4-31b-it
+    hf_id: google/gemma-4-31B-it
+    loader: multimodal
+    gpus: {a100: 2, h100: 1}
+    reasoning: off           # template default enable_thinking=false
+    tier: core
+    enabled: true
+
+  - key: gpt-oss-20b
+    hf_id: openai/gpt-oss-20b
+    loader: causal
+    gpus: {a100: 2, h100: 1}  # MXFP4 kernels need Hopper; on A100 weights are dequantised to bf16 (~42 GB)
+    reasoning: on            # harmony analysis/final channels, template default effort = medium
+    tier: core
+    enabled: true
+
+  - key: olmo-3.1-32b-instruct
+    hf_id: allenai/Olmo-3.1-32B-Instruct
+    loader: causal
+    gpus: {a100: 2, h100: 1}
+    reasoning: none
+    tier: core
+    enabled: true
+
+  # ---------------- optional ----------------
+  - key: olmo-3.1-32b-think
+    hf_id: allenai/Olmo-3.1-32B-Think
+    loader: causal
+    gpus: {a100: 2, h100: 1}  # same architecture as -Instruct; a 32k answer adds only ~3 GiB of KV cache
+    reasoning: on
+    tier: optional
+    enabled: true
+    notes: Same base model as olmo-3.1-32b-instruct, different post-training.
+
+  - key: gemma-4-26b-a4b-it
+    hf_id: google/gemma-4-26B-A4B-it
+    loader: multimodal
+    gpus: {a100: 2, h100: 1}
+    reasoning: off
+    tier: optional
+    enabled: true
+
+  - key: gemma-3-27b-it
+    hf_id: google/gemma-3-27b-it
+    loader: multimodal
+    gpus: {a100: 2, h100: 1}
+    reasoning: none
+    tier: optional
+    enabled: true
+    notes: Gated (accept the Gemma licence on Hugging Face). Gemma Scope 2 SAEs exist for this model.
+
+  - key: qwen3.6-35b-a3b
+    hf_id: Qwen/Qwen3.6-35B-A3B
+    loader: multimodal
+    gpus: {a100: 3, h100: 2}
+    reasoning: on
+    tier: optional
+    enabled: true
+    notes: MoE, 35B total / 3B active.
+
+  - key: magistral-small-2509
+    hf_id: mistralai/Magistral-Small-2509
+    loader: class
+    model_class: Mistral3ForConditionalGeneration
+    tokenizer_kwargs: {tokenizer_type: mistral}
+    gpus: {a100: 2, h100: 1}
+    reasoning: on            # [THINK] ... [/THINK]; Mistral recommends a system prompt, which we do not add
+    tier: optional
+    enabled: true
+    notes: Needs mistral-common. Least-tested loader path; run the smoke test first.
+
+  - key: nemotron-3-nano-30b-a3b
+    hf_id: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16
+    loader: causal
+    gpus: {a100: 2, h100: 1}
+    reasoning: on
+    tier: optional
+    enabled: true
+    notes: Hybrid Mamba-Transformer MoE (transformers >= 5.3). mamba-ssm kernels optional but much faster.
+
+  - key: llama-3.1-8b-instruct
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    loader: causal
+    gpus: {a100: 1, h100: 1}
+    reasoning: none
+    tier: optional
+    enabled: true
+    notes: Gated. Older baseline; Meta has since moved to closed models.
+
+  - key: deepseek-r1-distill-qwen-32b
+    hf_id: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+    loader: causal
+    gpus: {a100: 3, h100: 2}
+    reasoning: on
+    tier: optional
+    enabled: true
+    notes: Older (Jan 2025) but widely cited reasoning distill.

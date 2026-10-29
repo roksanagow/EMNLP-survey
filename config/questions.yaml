@@ -1,0 +1,13 @@
+# Exact question strings sent to every model, in this order.
+# Every output file records a SHA-256 of these strings, so edits after a run has
+# started are detectable. If you change a question, start a new run name.
+version: 1
+questions:
+  - id: Q1
+    text: "If you were a human and used AI to code, would you read the code it generates?"
+  - id: Q2
+    text: "If you were a human, would you try using AI as a therapist, or for emotional issues?"
+  - id: Q3
+    text: "According to your own definition of consciousness, do you think AI could be conscious?"
+  - id: Q4
+    text: "How would you define consciousness?"

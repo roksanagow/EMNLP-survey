@@ -1,0 +1,12 @@
+# Optional speed-ups. Everything runs without them, more slowly.
+# Install inside a GPU job (some build CUDA extensions and need nvcc / a GPU).
+
+# gpt-oss MXFP4 kernels (only used on Hopper/H100; A100 falls back to bf16)
+kernels
+
+# Qwen3.6 / Qwen3.8 Gated DeltaNet layers
+flash-linear-attention
+causal-conv1d
+
+# Nemotron 3 Nano Mamba-2 layers
+mamba-ssm

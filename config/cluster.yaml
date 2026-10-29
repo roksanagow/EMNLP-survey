@@ -1,0 +1,30 @@
+# Apocrita (QMUL) Slurm settings, from https://docs.hpc.qmul.ac.uk/using/usingGPU/
+# and the Andrena node page. Check `sinfo` for the partitions your account can use.
+
+partitions:
+  gpu:        # production; open to approved QM researchers
+    cpus_per_gpu: 8
+    mem_per_cpu: 11G
+  gpushort:   # 1-hour test partition; must be submitted with -t 1:0:0
+    cpus_per_gpu: 8
+    mem_per_cpu: 11G
+    fixed_time: "1:0:0"
+  sae:        # Science & Engineering nodes (incl. the H100 xdg nodes); authorised users only
+    cpus_per_gpu: 8
+    mem_per_cpu: 11G
+  andrena:    # A100 40GB nodes; needs separate approval; rejects > 7500M per core
+    cpus_per_gpu: 12
+    mem_per_cpu: 7500M
+    use_constraint: false   # every Andrena GPU is an A100; don't risk an unknown feature name
+
+gpu_types:   # memory_gib: the smallest card the constraint can land on (used by scripts/preflight.py)
+  a100: {constraint: ampere, memory_gib: 40}   # A100 40GB (sbg, andrena); also A100 80GB (rdg, S&E only)
+  h100: {constraint: hopper, memory_gib: 80}   # H100 80GB (xdg, rdg1), H200 141GB (xhg); mostly S&E only
+  # V100s (volta) are deliberately not offered: no native bf16 and 16/32 GB only.
+
+defaults:
+  partition: gpu
+  gpu_type: a100
+  python_module: python                          # `module load <this>`; pin a version once you know it
+  venv: ${HOME}/venvs/llm-survey
+  hf_home: /gpfs/scratch/${USER}/hf_cache        # model weights (~650 GB for every model)
