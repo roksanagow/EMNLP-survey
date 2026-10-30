@@ -24,6 +24,9 @@ if [ ! -d "$VENV" ]; then
   virtualenv "$VENV" 2>/dev/null || python -m venv "$VENV"
 fi
 source "$VENV/bin/activate"
+# the python module's own packages (virtualenv, filelock, ...) can sit on PYTHONPATH; pip would count them
+# as installed and leave them out of the venv, which then breaks whenever the module isn't loaded
+unset PYTHONPATH
 pip install --upgrade pip
 # torch + torchvision first, from one index, so requirements.txt doesn't swap them for CUDA 13 builds
 # shellcheck disable=SC2086

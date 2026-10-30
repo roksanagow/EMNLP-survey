@@ -21,6 +21,7 @@ export TOKENIZERS_PARALLELISM=false
 export PYTHONUNBUFFERED=1
 
 module load "${PYTHON_MODULE:-python}"
+unset PYTHONPATH                   # use only the venv's packages, not the python module's (see setup_env.sh)
 source "$VENV/bin/activate"
 cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")/..}"
 

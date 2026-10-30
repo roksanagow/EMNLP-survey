@@ -14,6 +14,7 @@
 
 set -euo pipefail
 module load "${PYTHON_MODULE:-python}"
+unset PYTHONPATH   # use only the venv's packages, not the python module's (see setup_env.sh)
 source "${VENV:-$HOME/venvs/llm-survey}/bin/activate"
 export HF_HOME="${HF_HOME:-/gpfs/scratch/$USER/hf_cache}"
 cd "${SLURM_SUBMIT_DIR:-.}"
