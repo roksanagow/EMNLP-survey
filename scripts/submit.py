@@ -6,6 +6,7 @@
   python scripts/submit.py --gpu-type h100 --partition sae
   python scripts/submit.py --smoke                         # 1-hour gpushort check of every model
   python scripts/submit.py --models gpt-oss-20b --conditions independent
+  python scripts/submit.py --after 123456                  # queue behind the download job
 """
 from __future__ import annotations
 
@@ -58,6 +59,9 @@ def build_command(spec, args, cluster) -> tuple[list[str], dict[str, str]]:
     ]
     if gtype.get("constraint") and part.get("use_constraint", True):
         cmd += ["--constraint", gtype["constraint"]]
+    if args.after:
+        # afterany, not afterok: one failed download shouldn't hold back the models that did download
+        cmd += ["--dependency", f"afterany:{args.after}"]
     bad = [k for k, v in env.items() if "," in v]
     if bad:
         raise ValueError(f"values for {bad} contain commas, which sbatch --export cannot carry")
@@ -80,6 +84,7 @@ def main(argv=None) -> int:
     p.add_argument("--max-new-tokens", type=int)
     p.add_argument("--smoke", action="store_true", help="Q1 only, 64 tokens, on gpushort for 1 hour")
     p.add_argument("--overwrite", action="store_true")
+    p.add_argument("--after", metavar="JOBID", help="start only once this job (e.g. the download) has ended")
     p.add_argument("--venv")
     p.add_argument("--hf-home")
     p.add_argument("--dry-run", action="store_true")

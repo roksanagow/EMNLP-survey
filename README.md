@@ -132,6 +132,8 @@ Other options:
 - Run a subset with `--models gpt-oss-20b qwen3.8-27b` or `--tier core`.
 - Run only one condition with `--conditions independent`.
 - Override the walltime with `--time 24:0:0`.
+- Queue the jobs behind another job (e.g. the download) with `--after <jobid>`; they start once it has ended,
+  even if it failed, so one failed download doesn't block every model.
 - A finished run is never overwritten; use `--run-name` for a new run, or `--overwrite` to replace one.
 
 ## Outputs
