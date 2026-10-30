@@ -170,7 +170,8 @@ Each file also records:
   - **gpt-oss-20b on A100s:** MXFP4 weights get converted to bf16 there, so it needs 2 GPUs.
   - **Qwen3.6/3.8 and Nemotron:** they run without their optional CUDA kernels, just slowly (see `requirements-optional.txt`).
 - **PyTorch and the GPU driver.** PyTorch 2.15+ is built only for CUDA 13, which needs NVIDIA driver 580 or newer.
-  `setup_env.sh` therefore installs PyTorch 2.14 built for CUDA 12.8, which runs on older drivers.
+  `setup_env.sh` therefore installs PyTorch 2.14 built for CUDA 12.6, which runs on older drivers
+  (PyTorch's CUDA 12.8 index stops at 2.11).
   - If `check_env` still reports CUDA unusable, compare the driver version in its `nvidia-smi` output with the
     PyTorch build. To switch builds, set `TORCH_SPEC` and `TORCH_INDEX` and rerun the setup script; its header comment
     shows how.

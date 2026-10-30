@@ -4,8 +4,9 @@
 # Override with VENV=... HF_HOME=... PYTHON_MODULE=... TORCH_INDEX=... TORCH_SPEC=... bash setup_env.sh
 #
 # PyTorch: 2.15+ is published only for CUDA 13, which needs NVIDIA driver >= 580. Cluster
-# drivers are often older, so by default we install PyTorch 2.14 built for CUDA 12.8. If a
-# GPU node's `nvidia-smi` shows driver >= 580 you can use the newest wheels instead:
+# drivers are often older, so by default we install PyTorch 2.14 built for CUDA 12.6 (the
+# cu128 index stops at 2.11). If a GPU node's `nvidia-smi` shows driver >= 580 you can use
+# the newest wheels instead:
 #   TORCH_SPEC="torch torchvision" TORCH_INDEX=https://pypi.org/simple bash setup_env.sh
 
 set -euo pipefail
@@ -14,7 +15,7 @@ PYTHON_MODULE="${PYTHON_MODULE:-python}"
 VENV="${VENV:-$HOME/venvs/llm-survey}"
 HF_HOME="${HF_HOME:-/gpfs/scratch/$USER/hf_cache}"
 TORCH_SPEC="${TORCH_SPEC:-torch==2.14.* torchvision}"
-TORCH_INDEX="${TORCH_INDEX:-https://download.pytorch.org/whl/cu128}"
+TORCH_INDEX="${TORCH_INDEX:-https://download.pytorch.org/whl/cu126}"
 
 module load "$PYTHON_MODULE"
 python --version
