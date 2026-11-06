@@ -50,6 +50,8 @@ def load_run(run_dir: Path) -> pd.DataFrame:
         for t in rec.get("turns", []):
             rows.append({
                 "model_key": rec["model_key"],
+                "weights": rec.get("weights", "open"),   # GPU runs are all open-weight models
+                "source": rec.get("source", "gpu"),      # gpu, or chat_app (scripts/import_transcripts.py)
                 "hf_id": rec.get("hf_id"),
                 "revision": rec.get("revision_resolved"),
                 "condition": rec["condition"],

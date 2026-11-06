@@ -1,7 +1,8 @@
 # LLM opinion survey
 
-Asks open-weight chat models the same four questions that were put to people at EMNLP, saves every
-answer, and builds a workbook for coding the answers blind.
+Asks chat models the same four questions that were put to people at EMNLP, and saves every answer: open-weight
+models run on Apocrita's GPUs, and the rest by hand in their chat apps. It then helps you code the answers, either
+with the model shown (a browser page) or blind (a workbook).
 
 ```
 Q1  If you were a human and used AI to code, would you read the code it generates?
@@ -46,13 +47,34 @@ A mismatch means GPU nondeterminism, which is worth knowing about.
 | gemma-4-26b-a4b-it | google/gemma-4-26B-A4B-it | optional | no | 2 / 1 |
 | gemma-3-27b-it | google/gemma-3-27b-it (gated) | optional | no | 2 / 1 |
 | qwen3.6-35b-a3b | Qwen/Qwen3.6-35B-A3B | optional | yes | 3 / 2 |
-| magistral-small-2509 | mistralai/Magistral-Small-2509 | optional | yes | 2 / 1 |
+| magistral-small-2509 | mistralai/Magistral-Small-2509 | optional | no (only with Mistral's system prompt) | 2 / 1 |
 | nemotron-3-nano-30b-a3b | nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16 | optional | yes | 2 / 1 |
 | llama-3.1-8b-instruct | meta-llama/Llama-3.1-8B-Instruct (gated) | optional | no | 1 / 1 |
 | deepseek-r1-distill-qwen-32b | deepseek-ai/DeepSeek-R1-Distill-Qwen-32B | optional | yes | 3 / 2 |
 
 GPU counts cover bf16 weights plus room for a 32k-token answer; `scripts/preflight.py` prints the estimate
 for each model. Set `enabled: false` to skip a model.
+
+## Models surveyed in their chat apps (`config/app_models.yaml`)
+
+Closed-weight models (ChatGPT, Claude, Gemini, Grok's free plan), plus one open-weight model too big for our
+GPUs (Z.ai's GLM-5.3, run in Mistral Vibe), are asked the same questions by hand. They are recorded as open- or
+closed-weight by their weights, but they differ from the GPU runs in method: each app adds its own hidden system
+prompt and settings (Mistral Vibe, a coding agent, also offers the model tools), gives no token counts, and may
+change without notice. Every answer records `"source": "chat_app"`, so the
+analysis can separate them.
+
+```bash
+python scripts/import_transcripts.py --new claude-opus-5-5   # transcripts/claude-opus-5-5/{sequential,independent}.md
+#    sequential: Q1-Q4 in one new chat; independent: a new chat per question. Use a temporary/incognito
+#    chat with memory, custom instructions and web search off. Paste each reply under its question's
+#    "answer" marker (the app's copy button keeps the formatting) and fill in the header (date, plan,
+#    model label shown, thinking setting).
+python scripts/import_transcripts.py                         # -> outputs/main/<key>/<condition>.json
+```
+
+Run the import again after any edit; it replaces the JSON. It never overwrites a GPU run's file, and it warns
+about unfilled settings, missing answers and edited question text.
 
 ## Apocrita resources used
 
@@ -122,11 +144,21 @@ python scripts/submit.py                           # A100s on -p gpu
 python scripts/submit.py --gpu-type h100 --partition sae   # or H100s, if you have S&E access
 squeue --me; tail -f logs/survey-<model>.o<jobid>
 
-# 6. Code the answers
+# 6. Code the answers. On your laptop, after rsyncing outputs/ from the cluster, either
+python scripts/label.py                            # browser page, model and condition shown -> outputs/main/labels.csv
+#    or blind:
 python scripts/collect.py                          # outputs/main/coding_workbook.xlsx + blind_key.csv
 #    code the "Blind coding" sheet (dropdowns use the human-survey categories), save, then
 python scripts/unblind.py                          # outputs/main/coded_answers.csv, coded_wide.csv
 ```
+
+`label.py` shows every answer with its reasoning trace (folded), token count and flags such as a truncated
+answer, and saves each label to `labels.csv` the moment you click it. You can read by question (every model's
+answer to Q2) or by model (one model's whole chat), and the overview grid shows what's left. Keys: `j`/`k` move
+between answers, `1`–`6` pick a category, `r` opens the reasoning, `n` jumps to notes. Q4 takes free-text
+themes separated by semicolons. Each label stores a hash of the answer it was made against, so if a model is
+re-run with `--overwrite`, its old labels are flagged as out of date. The page loads its Markdown renderer from
+cdnjs; offline, answers show as plain text.
 
 Other options:
 - Run a subset with `--models gpt-oss-20b qwen3.8-27b` or `--tier core`.
@@ -142,7 +174,10 @@ Other options:
 outputs/main/<model>/sequential.json   everything: prompts, raw output, reasoning, answer, settings, versions
 outputs/main/<model>/sequential.md     readable transcript (reasoning folded)
 outputs/main/<model>/independent.json / .md
-outputs/main/answers_long.csv          one row per model × condition × question
+outputs/main/labels.csv                your labels from scripts/label.py: model, condition, question, code, notes
+outputs/main/answers_long.csv          one row per model × condition × question, with weights (open/closed)
+                                       and source (gpu/chat_app)
+transcripts/<key>/<condition>.md       chat-app conversations as pasted (the source of their JSON)
 outputs/main/coding_workbook.xlsx      Blind coding / All answers / Codebook
 outputs/main/blind_key.csv             blind_id -> model, condition (don't open while coding)
 ```

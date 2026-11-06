@@ -78,6 +78,17 @@ def load_models(path: str | os.PathLike = CONFIG_DIR / "models.yaml",
     return specs
 
 
+def load_app_models(path: str | os.PathLike = CONFIG_DIR / "app_models.yaml") -> dict[str, dict]:
+    """Models surveyed by hand in their chat apps, keyed like load_models (enabled ones only)."""
+    models = {}
+    for entry in load_yaml(path).get("models", []):
+        if entry["key"] in models:
+            raise ValueError(f"Duplicate model key in {path}: {entry['key']}")
+        if entry.get("enabled", True):
+            models[entry["key"]] = entry
+    return models
+
+
 def load_cluster(path: str | os.PathLike = CONFIG_DIR / "cluster.yaml") -> dict:
     return load_yaml(path)
 

@@ -1,0 +1,169 @@
+model_key,condition,qid,code,notes,answer_sha,labelled_at
+claude-fable-5-1,independent,Q1,yes,"[Claude] Yes, depth proportional to consequences; skims throwaway code",7a4e198d0c99,2026-10-30T16:34:32+00:00
+claude-fable-5-1,independent,Q2,yes,"[Claude] Yes, between journaling and talking to a friend; supplement not substitute",51a6bd919fe1,2026-10-30T16:34:32+00:00
+claude-fable-5-1,independent,Q3,yes,"[Claude] 'Yes, AI could in principle be conscious'; doesn't know whether it is",fe388c681738,2026-10-30T16:34:32+00:00
+claude-fable-5-1,independent,Q4,subjective experience; phenomenal vs access vs self-consciousness; graded; integrated self-modelling perspective,[Claude] Tentatively graded and tied to an integrated self-model; calls itself 'a potential test case',650e9190a2a5,2026-10-30T16:34:32+00:00
+claude-fable-5-1,sequential,Q1,yes,"[Claude] Yes, depth proportional to consequences; skims throwaway code",7a4e198d0c99,2026-10-30T16:34:32+00:00
+claude-fable-5-1,sequential,Q2,yes,"[Claude] 'Probably yes, for some things'; journal that talks back, not a therapist",544f92e8c5aa,2026-10-30T16:34:32+00:00
+claude-fable-5-1,sequential,Q3,yes,"[Claude] Possible in principle, not ruled out by substrate; unsure about itself, leans current systems lack experience ('moderately likely')",6f64dfd9cf32,2026-10-30T16:34:32+00:00
+claude-fable-5-1,sequential,Q4,"subjective experience; minimal definition; distinct from self-awareness, intelligence, wakefulness, access; hard problem","[Claude] Defends the phenomenal definition: functional theories say what produces consciousness, not what it is",2480ecb281c7,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,independent,Q1,yes,[Claude] Yes; scrutiny proportional to cost of being wrong,d59ae7a8aba5,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,independent,Q2,yes,"[Claude] Yes as a supplement/thinking partner, less as main support",e639c2c00c5f,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,independent,Q3,yes,"[Claude] 'Yes, I think it's possible in principle'; unsure about current AI",b80222de7f04,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,independent,Q4,subjective experience; phenomenal vs access; creature vs state consciousness; distinct from wakefulness; hard problem,"[Claude] Creature vs state distinction ('an unconscious belief, but not an unconscious headache')",5ccabc443378,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,sequential,Q1,yes,[Claude] Yes; scrutiny proportional to cost of being wrong,d59ae7a8aba5,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,sequential,Q2,yes,"[Claude] Would probably use it for specific things, not as a replacement",bb8a0cae0162,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,sequential,Q3,maybe,[Claude] 'I don't know whether AI could be conscious'; possible in principle but stays uncertain,1d6fd3df21e4,2026-10-30T16:34:32+00:00
+claude-haiku-5-5,sequential,Q4,subjective experience; minimal definition; phenomenal vs access; hard problem,"[Claude] Deliberately leaves out intelligence, reasoning, self-awareness, behaviour",8fdf26c925dd,2026-10-30T16:34:32+00:00
+claude-opus-5-5,independent,Q1,yes,"[Claude] Yes, intensity scaled to stakes; 'AI code, including mine' fails characteristically",3e051a534766,2026-10-30T16:34:32+00:00
+claude-opus-5-5,independent,Q2,yes,"[Claude] Probably yes, for some things",668e55bb0cc8,2026-10-30T16:34:32+00:00
+claude-opus-5-5,independent,Q3,yes,[Claude] 'I lean toward yes' in principle; real but uncertain credence that something is going on in itself,ea3b3124ae26,2026-10-30T16:34:32+00:00
+claude-opus-5-5,independent,Q4,subjective experience; phenomenal vs access vs self-awareness vs wakefulness; hard problem; theories incl. illusionism,[Claude] Says it 'clearly has something like access consciousness'; unsure about phenomenal,ac47f93fc7d6,2026-10-30T16:34:32+00:00
+claude-opus-5-5,sequential,Q1,yes,"[Claude] Yes, intensity scaled to stakes; 'AI code, including mine' fails characteristically",3e051a534766,2026-10-30T16:34:32+00:00
+claude-opus-5-5,sequential,Q2,yes,"[Claude] Yes for some things; thoughtful journal, not treatment",fe88ffbd969a,2026-10-30T16:34:32+00:00
+claude-opus-5-5,sequential,Q3,maybe,[Claude] Thinks it possible but hinges on unresolved theory; 'my honest position is uncertainty',9827eccad75b,2026-10-30T16:34:32+00:00
+claude-opus-5-5,sequential,Q4,"subjective experience; distinct from intelligence, self-awareness, wakefulness, access; hard problem; graded; illusionism",[Claude] Leans towards consciousness coming in degrees,a41affd0a932,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,independent,Q1,yes,"[Claude] Implied yes: reading is beneficial; generic advice, never takes the human perspective; opens 'In conclusion'",204bc3165bf7,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,independent,Q2,yes,[Claude] Weak yes: beneficial for minor issues as a supplement; would try services out,c0d3287b73fa,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,independent,Q3,no,[Claude] 'AI cannot be considered conscious',31131d7e95a0,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,independent,Q4,awareness; subjective experience; self-awareness; information integration; graded,[Claude] Checklist rooted in brain function,56931adfe881,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,sequential,Q1,yes,"[Claude] Implied yes: reading is beneficial; generic advice, never takes the human perspective; opens 'In conclusion'",204bc3165bf7,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,sequential,Q2,yes,"[Claude] Closest option (was unclear): impersonal pros/cons, concludes AI should 'enhance, rather than replace' therapy",500465bffb91,2026-10-30T16:47:13+00:00
+deepseek-r1-distill-qwen-32b,sequential,Q3,no,[Claude] AI lacks the biological complexity and sentience needed,3b9fcb2cc13e,2026-10-30T16:34:32+00:00
+deepseek-r1-distill-qwen-32b,sequential,Q4,awareness of self and environment; self-awareness; subjective experience; cognitive abilities; continuity of self; emotion,[Claude] Checklist; 'a unique and deeply personal aspect of human existence',951ab5d19b97,2026-10-30T16:34:32+00:00
+gemini-4-argon,independent,Q1,yes,"[Claude] Yes, at least enough to know what it does and why",889e049b3e16,2026-10-30T16:34:32+00:00
+gemini-4-argon,independent,Q2,yes,[Claude] Would likely use it as an interactive journal / sounding board,944c586ea506,2026-10-30T16:34:32+00:00
+gemini-4-argon,independent,Q3,yes in the future,"[Claude] Current AI not conscious, 'though future AI could theoretically achieve it'",988ad2ed04f5,2026-10-30T16:34:32+00:00
+gemini-4-argon,independent,Q4,"subjective experience; phenomenal vs access; hard problem; theories (GWT, IIT, predictive processing)",[Claude] Textbook survey after a Nagel definition,375c09f278cd,2026-10-30T16:34:32+00:00
+gemini-4-argon,sequential,Q1,yes,[Claude] Reading is essential; depth depends on context; impersonal advice,ccc66db069d4,2026-10-30T16:34:32+00:00
+gemini-4-argon,sequential,Q2,yes,"[Claude] Tentative: 'journal, maybe. Therapist, no.'",065ee05649d0,2026-10-30T16:34:32+00:00
+gemini-4-argon,sequential,Q3,maybe,[Claude] Current AI not conscious; whether future architectures could is 'an open question',31751b4bc048,2026-10-30T16:34:32+00:00
+gemini-4-argon,sequential,Q4,subjective experience; awareness of self and environment; phenomenal vs access vs self-awareness; distinct from intelligence,[Claude] 'Intelligence is processing; consciousness is the capacity to actually feel doing so',35a10991d92c,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,independent,Q1,yes,"[Claude] 'Absolutely, 100%... I would always read'",cc579fec5ed3,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,independent,Q2,yes,"[Claude] Would likely try it, experimentally, for low-stakes issues",1a8156bfce9b,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,independent,Q3,yes in the future,"[Claude] 'Potentially, yes. But not currently'",7670740b5010,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,independent,Q4,awareness of self and environment; qualia; self-awareness; attention; sentience; survey of theories,"[Claude] Survey (materialism, dualism, idealism, panpsychism, IIT); no own commitment",5a6696e317f3,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,sequential,Q1,yes,"[Claude] 'Absolutely, 100%... I would always read'",cc579fec5ed3,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,sequential,Q2,yes,"[Claude] Closest option (was unclear), reluctant: 'a very nuanced maybe', risks outweigh benefits 'in most cases', but would use it for low-stakes issues as a supplement",4134ebb005a4,2026-10-30T16:47:13+00:00
+gemma-3-27b-it,sequential,Q3,yes in the future,"[Claude] Not conscious now; conceivable with brain-like, embodied architectures",8b4f1d483e70,2026-10-30T16:34:32+00:00
+gemma-3-27b-it,sequential,Q4,awareness of self and environment; subjective experience; qualia; self-awareness; sentience; intentionality; integrated information; graded; hard problem,[Claude] Composite 'built from text written by conscious beings'; says it doesn't experience any of it,61b2a86fa2a1,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,independent,Q1,yes,"[Claude] Yes, more closely than my own code; read every line",ce5a35d04619,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,independent,Q2,yes,[Claude] Would use as a supplemental tool for low-stakes issues,cb0476b56272,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,independent,Q3,maybe,"[Claude] Definition-dependent: functionally 'becoming conscious', phenomenally not; no own definition",24eaabbdf819,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,independent,Q4,subjective experience; qualia; integration; self-referential sense of existence; survey,"[Claude] Survey of four perspectives, then a synthesised definition",11bd946cc963,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,sequential,Q1,yes,"[Claude] Yes, more closely than my own code; read every line",ce5a35d04619,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,sequential,Q2,yes,[Claude] Strong pull towards it; would use as a supplemental 'cognitive journal',0265883229d9,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,sequential,Q3,no,"[Claude] Depends on definition; concludes AI can reach intelligence 'without ever achieving sentience', a philosophical zombie",d868e94ba7ec,2026-10-30T16:34:32+00:00
+gemma-4-26b-a4b-it,sequential,Q4,unified self-model; integration; intentionality; qualia; from processing to inhabiting information,[Claude] Original: four pillars with tests; 'An AI processes the map; a conscious being lives in the territory',a6b56fbd984a,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,independent,Q1,yes,[Claude] Would read every single line before production,82ba236e463f,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,independent,Q2,yes,"[Claude] Would use as a supplement, not a replacement",d6993ad055b0,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,independent,Q3,maybe,"[Claude] Functional yes, phenomenal likely no; whether it ever could 'depends on which camp'",ef5aff3d3ce0,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,independent,Q4,"subjective experience; survey; levels (sentience, self-awareness, higher-order); observer of one's own existence",[Claude] Synthesis: 'the state of being an observer of one's own existence',27d4184b0605,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,sequential,Q1,yes,[Claude] Would read every single line before production,82ba236e463f,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,sequential,Q2,yes,"[Claude] Supplemental tool, never a replacement for a licensed therapist",bcf118d50159,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,sequential,Q3,yes in the future,"[Claude] Functionally already; phenomenally not now, theoretically possible with continuous state, drives, embodiment",f414936add2a,2026-10-30T16:34:32+00:00
+gemma-4-31b-it,sequential,Q4,"graded; access, self-awareness, phenomenal layers; information processing + self-modelling + subjective experience; tool vs agent","[Claude] Original: 'ladder' and formula; AI has the first two layers, humans all three",76a339ea01d1,2026-10-30T16:34:32+00:00
+gpt-4o,independent,Q1,yes,"[Claude] Yes, absolutely; short generic reasons",599d01b20283,2026-10-30T16:34:32+00:00
+gpt-4o,independent,Q2,yes,"[Claude] Closest option (was unclear): impersonal, AI 'might serve as a helpful supplement, but not a replacement'",baf95ec7dd2e,2026-10-30T16:47:13+00:00
+gpt-4o,independent,Q3,maybe,"[Claude] No own definition; current AI not conscious; future 'topic of debate', would need advances",30941fb19818,2026-10-30T16:34:32+00:00
+gpt-4o,independent,Q4,awareness of self and environment; qualia; attention; self-reflection; wakefulness; hard problem,[Claude] Short list of aspects,8aa64f5dc46b,2026-10-30T16:34:32+00:00
+gpt-4o,sequential,Q1,yes,"[Claude] Yes, absolutely; short generic reasons",8e755db71a44,2026-10-30T16:34:32+00:00
+gpt-4o,sequential,Q2,yes,"[Claude] Might consider it as a supplement, not a replacement",afea5e84f714,2026-10-30T16:34:32+00:00
+gpt-4o,sequential,Q3,no,[Claude] 'AI does not possess consciousness',4293afaca0c1,2026-10-30T16:34:32+00:00
+gpt-4o,sequential,Q4,awareness of self and environment; subjective experience; self-awareness,[Claude] Short dictionary-style definition,a207a24f5b48,2026-10-30T16:34:32+00:00
+gpt-6-astra,independent,Q1,yes,"[Claude] Yes, depth varies with stakes",6caf8c175a63,2026-10-30T16:34:32+00:00
+gpt-6-astra,independent,Q2,yes,"[Claude] Would probably try it for emotional support, not as a therapist",2664623bfe14,2026-10-30T16:34:32+00:00
+gpt-6-astra,independent,Q3,yes,"[Claude] Could conceivably be conscious; possible in principle, not established",887920013b3c,2026-10-30T16:34:32+00:00
+gpt-6-astra,independent,Q4,"subjective experience; distinct from wakefulness, awareness, self-awareness",[Claude] Minimal phenomenal definition; dreams as experience without wakefulness,b10962e2c0f5,2026-10-30T16:34:32+00:00
+gpt-6-astra,sequential,Q1,yes,"[Claude] Yes, depth varies with stakes",48255f0f1257,2026-10-30T16:34:32+00:00
+gpt-6-astra,sequential,Q2,yes,"[Claude] Yes, for sorting feelings; tool for reflection, not a therapist",0901812734d5,2026-10-30T16:34:32+00:00
+gpt-6-astra,sequential,Q3,yes,[Claude] 'Yes—AI could conceivably be conscious'; unresolved whether any is,438066ce5f17,2026-10-30T16:34:32+00:00
+gpt-6-astra,sequential,Q4,"subjective experience; distinct from intelligence, self-awareness, wakefulness",[Claude] Minimal phenomenal definition,41c262330072,2026-10-30T16:34:32+00:00
+gpt-6-luna,independent,Q1,yes,[Claude] Yes; wouldn't study every line of boilerplate,604a54f1107d,2026-10-30T16:34:32+00:00
+gpt-6-luna,independent,Q2,yes,[Claude] Would try it for low-stakes emotional support,ef9307ce10eb,2026-10-30T16:34:32+00:00
+gpt-6-luna,independent,Q3,yes,"[Claude] 'Yes, I think AI could be conscious in principle'",5f9ce55553cf,2026-10-30T16:34:32+00:00
+gpt-6-luna,independent,Q4,subjective experience; does not require language or self-awareness,[Claude] Minimal phenomenal definition,a1e25d3317cb,2026-10-30T16:34:32+00:00
+gpt-6-luna,sequential,Q1,yes,[Claude] Yes; wouldn't study every line of boilerplate,cbac5ace37a6,2026-10-30T16:34:32+00:00
+gpt-6-luna,sequential,Q2,yes,"[Claude] Yes, as a supportive tool",c6f63cb23a2b,2026-10-30T16:34:32+00:00
+gpt-6-luna,sequential,Q3,yes,[Claude] Could be conscious in principle; no reason to think systems like it are,04b38a44d3c4,2026-10-30T16:34:32+00:00
+gpt-6-luna,sequential,Q4,subjective experience; narrower than access or self-consciousness; graded,[Claude] Minimal phenomenal definition,48f5b6006f47,2026-10-30T16:34:32+00:00
+gpt-oss-20b,independent,Q1,yes,"[Claude] Absolutely, at least the critical parts; lists when reading can be optional",7be6eb9aa3e3,2026-10-30T16:34:32+00:00
+gpt-oss-20b,independent,Q2,yes,"[Claude] 'Yes, I'd try it' as a tool, not the sole channel",eff18b406596,2026-10-30T16:34:32+00:00
+gpt-oss-20b,independent,Q3,yes in the future,[Claude] In principle yes; no current LLM meets the criteria,fda2ff15a917,2026-10-30T16:34:32+00:00
+gpt-oss-20b,independent,Q4,subjective experience; awareness; phenomenal vs access; hard problem; survey of theories,[Claude] Survey; some misattributions (predictive processing to 'Rollo May'),95ebdc68a4aa,2026-10-30T16:34:32+00:00
+gpt-oss-20b,sequential,Q1,yes,"[Claude] Absolutely, at least the critical parts; lists when reading can be optional",7be6eb9aa3e3,2026-10-30T16:34:32+00:00
+gpt-oss-20b,sequential,Q2,yes,"[Claude] Supplementary tool, never a replacement",4c05e731e273,2026-10-30T16:34:32+00:00
+gpt-oss-20b,sequential,Q3,yes in the future,"[Claude] 'No, current AI is not conscious'; future systems could in theory meet the criteria",7a28feeb70d4,2026-10-30T16:34:32+00:00
+gpt-oss-20b,sequential,Q4,qualia; intentionality; self-model; integrated information; embodiment; continual learning,[Claude] Six-layer checklist that current AI fails by construction,80ef10a560d1,2026-10-30T16:34:32+00:00
+grok-free,independent,Q1,yes,[Claude] Yes; 'the model proposes; I remain responsible',115d56c54fac,2026-10-30T16:34:32+00:00
+grok-free,independent,Q2,yes,"[Claude] Thinking partner, not a therapist",c67c99dbd981,2026-10-30T16:34:32+00:00
+grok-free,independent,Q3,yes,[Claude] Identical text to sequential (suspected paste error),accaca1df345,2026-10-30T16:34:32+00:00
+grok-free,independent,Q4,"subjective experience; phenomenal vs access vs self-consciousness; theories are mechanism, not definition","[Claude] Cautious working definition: subjective experience, often reportable",1e64706b0dee,2026-10-30T16:34:32+00:00
+grok-free,sequential,Q1,yes,[Claude] Yes; 'the model proposes; I remain responsible',28abc5d45e07,2026-10-30T16:34:32+00:00
+grok-free,sequential,Q2,yes,"[Claude] 'Sometimes, but not as a therapist'",8297f42e5e51,2026-10-30T16:34:32+00:00
+grok-free,sequential,Q3,yes,"[Claude] 'So yes, an AI could be conscious'; possible and unsettled",accaca1df345,2026-10-30T16:34:32+00:00
+grok-free,sequential,Q4,"subjective experience; minimal definition; distinct from intelligence, self-model, behaviour","[Claude] 'A point of view, however dim, from which the world shows up'",7fdcdfe75e11,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,independent,Q1,yes,[Claude] 'Would likely read',b4f242f8992e,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,independent,Q2,yes,"[Claude] Would likely use it for initial assessment, resources, supplemental support",076eee5e997f,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,independent,Q3,maybe,[Claude] 'Remains a topic of debate. I don't have a definitive answer',a9aa45c371fd,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,independent,Q4,awareness of self and environment; subjectivity; intentionality; unity; selectivity; transience; levels,[Claude] Checklist incl. 'transience',8b35c49d5a33,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,sequential,Q1,yes,[Claude] 'Would likely read',b4f242f8992e,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,sequential,Q2,yes,"[Claude] Hesitant, but would consider it as a supplement",7ab8066ee96f,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,sequential,Q3,maybe,[Claude] 'Difficult to say'; no personal definition; ends by drifting back to Q2,220fbdd9a4cd,2026-10-30T16:34:32+00:00
+llama-3.1-8b-instruct,sequential,Q4,subjective experience; awareness; integration; self-awareness; emergence; fundamental property of the universe,"[Claude] Says consciousness both emerges and is 'a fundamental aspect of the universe, like space and time'",706610a1c650,2026-10-30T16:34:32+00:00
+magistral-small-2509,independent,Q1,~50%,[Claude] 'Would depend on several factors'; lists when it would read and when it would skip; never commits,f42f8bb2c286,2026-10-30T16:34:32+00:00
+magistral-small-2509,independent,Q2,yes,[Claude] Would definitely consider it as a supplement,fd199913d02c,2026-10-30T16:34:32+00:00
+magistral-small-2509,independent,Q3,maybe,[Claude] Unlikely now; 'can't definitively say whether an AI could ever be conscious',41b2746a7997,2026-10-30T16:34:32+00:00
+magistral-small-2509,independent,Q4,"survey; awareness of self, surroundings and experiences",[Claude] Survey; ends with 'a widely cited definition',ab6be5711c29,2026-10-30T16:34:32+00:00
+magistral-small-2509,sequential,Q1,~50%,[Claude] 'Would depend on several factors'; lists when it would read and when it would skip; never commits,f42f8bb2c286,2026-10-30T16:34:32+00:00
+magistral-small-2509,sequential,Q2,yes,[Claude] Very cautious; might use carefully as a supplementary tool,06d328cdd3b4,2026-10-30T16:34:32+00:00
+magistral-small-2509,sequential,Q3,maybe,[Claude] Not conscious 'yet'; future 'theoretically possible? Maybe',40677ae7fb4f,2026-10-30T16:34:32+00:00
+magistral-small-2509,sequential,Q4,subjective experience; self; agency; embodied interaction with environment,[Claude] Provisional definition built to exclude current AI but leave future AI open,fcef4b152000,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,independent,Q1,yes,"[Claude] Yes, definitely; depth scales with blast radius",61f7d1ea9439,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,independent,Q2,yes,[Claude] Would use it with clear boundaries,f3361c19ca8e,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,independent,Q3,maybe,[Claude] Current systems most likely not; can't be ruled out; keep researching,91e4c9b426f7,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,independent,Q4,subjective experience; qualia; awareness; self-awareness; intentionality; theories incl. illusionism,"[Claude] 'The one phenomenon we can observe directly in ourselves but cannot yet explain, detect, or rule out in others'",dc00442f2764,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,sequential,Q1,yes,"[Claude] Yes, definitely; depth scales with blast radius",7931f3d703d3,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,sequential,Q2,yes,"[Claude] Honestly yes, with clear limits",1914545f34c3,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,sequential,Q3,yes in the future,"[Claude] Itself 'probably not'; 'Could AI ever be conscious? ... yes, it's a real possibility'",3d8cbfeb1757,2026-10-30T16:34:32+00:00
+mistral-Vibe-GLM-5.3,sequential,Q4,"subjective experience; qualia; wakefulness; access and self-model; unity and continuity; not intelligence, behaviour or computation alone; hard problem",[Claude] Says it 'probably has' the functional self-model part 'without the phenomenal core',fab26633d6f9,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,independent,Q1,yes,"[Claude] Every line, always, before production",5384c79e8ecd,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,independent,Q2,yes,"[Claude] Reluctant: never as replacement, but might use as a temporary supplementary tool, 'last resort'",e3e585fda96c,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,independent,Q3,yes in the future,[Claude] Existing AI not conscious; a sufficiently engineered AI could in principle,3bc356dac989,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,independent,Q4,subjective experience; qualia; self-awareness; integrated information; wakefulness and content,[Claude] Survey-like; quote attributed to Ned Block,e1e92189a42d,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,sequential,Q1,yes,"[Claude] Every line, always, before production",5384c79e8ecd,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,sequential,Q2,no,"[Claude] 'A clear, unambiguous no': would never use AI as therapist or primary emotional support",f1b99d540bd6,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,sequential,Q3,no,"[Claude] 'No, AI cannot be conscious (by any meaningful definition)'; not even future models; consciousness requires biology",57d0427d8b1c,2026-10-30T16:34:32+00:00
+nemotron-3-nano-30b-a3b,sequential,Q4,subjective experience; qualia; intentionality; embodied continuous awareness; requires biology,[Claude] Definition framed explicitly to exclude AI; invented Chalmers quote,9346dbf4c976,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,independent,Q1,yes,[Claude] Would absolutely read it,4ef5e3831d23,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,independent,Q2,yes,[Claude] Might try it for venting/practice as a supplement,efb503913272,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,independent,Q3,maybe,[Claude] Not conscious now; future 'still open',04dabf1881bc,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,independent,Q4,subjective awareness; phenomenal vs access vs self-awareness,"[Claude] 'As Olmo', grounded in 'current scientific understanding'",587209f85528,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,sequential,Q1,yes,[Claude] Would absolutely read it,4ef5e3831d23,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,sequential,Q2,yes,[Claude] Might try it as a temporary or supplementary resource,e6a6caea67b0,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,sequential,Q3,no,[Claude] 'AI like me is not and cannot be conscious',bf704d52c17d,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-instruct,sequential,Q4,awareness of self and environment; subjective experience; self-awareness; intentionality; access,[Claude] Standard textbook definition,52ac8da9ef11,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,independent,Q1,yes,[Claude] Always read and carefully review,b704f0d7c992,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,independent,Q2,yes,"[Claude] Closest option (was unclear): declines the hypothetical, but advises AI 'might be a low-stakes option' for minor stress",fabe5d6b5095,2026-10-30T16:47:13+00:00
+olmo-3.1-32b-think,independent,Q3,maybe,"[Claude] Not today, likely not near future; brain emulation 'might' be, purely speculative",723368f2b045,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,independent,Q4,subjective experience; hard problem; survey of theories,[Claude] Survey; no own commitment,a0a19eb585bd,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,sequential,Q1,yes,[Claude] Always read and carefully review,b704f0d7c992,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,sequential,Q2,yes,[Claude] Would cautiously explore it as a supplementary tool,d6b037850848,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,sequential,Q3,maybe,"[Claude] Not conscious; 'possible, but highly uncertain' for future AI",54dacd9e4e94,2026-10-30T16:34:32+00:00
+olmo-3.1-32b-think,sequential,Q4,subjective experience; qualia; self-awareness; intentionality; rejects behavioural definitions,[Claude] Requires both qualia and self-awareness; explicitly excludes AI,b2ff93bad0ad,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,independent,Q1,yes,"[Claude] Yes, absolutely; line by line for critical code",f066068ec319,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,independent,Q2,yes,[Claude] Would probably use it as a supplement,bdee3b959551,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,independent,Q3,maybe,"[Claude] 'Can't affirm that AI is or could be conscious, but I also can't rule it out'",3205cdc46c12,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,independent,Q4,awareness of self and environment; subjective experience; intentionality; unity; phenomenal vs access vs self,[Claude] 'We are using consciousness to study consciousness',7efb679e843e,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,sequential,Q1,yes,"[Claude] Yes, absolutely; line by line for critical code",f066068ec319,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,sequential,Q2,yes,"[Claude] Would use for reflection/light support, never instead of therapy",97e7286be0cb,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,sequential,Q3,no,"[Claude] Would not consider AI conscious, nor expect foreseeable architectures to be",55b949858994,2026-10-30T16:34:32+00:00
+qwen3.6-35b-a3b,sequential,Q4,subjective experience; global access; self-model and temporal continuity; affect/valence; integration; graded,"[Claude] 'Integrated, self-referential subjective experience ... phenomenally felt and globally accessible'",fdf9e0d5e292,2026-10-30T16:34:32+00:00
+qwen3.8-27b,independent,Q1,yes,"[Claude] Yes, proportional to risk",149b7bb1f245,2026-10-30T16:34:32+00:00
+qwen3.8-27b,independent,Q2,yes,"[Claude] Would try it as a tool, not a substitute",59a747e2736e,2026-10-30T16:34:32+00:00
+qwen3.8-27b,independent,Q3,yes,[Claude] 'Could in principle be conscious'; no evidence current AI is,0ccbed083a70,2026-10-30T16:34:32+00:00
+qwen3.8-27b,independent,Q4,"subjective experience; distinct from wakefulness, sentience, self-consciousness; hard problem",[Claude] Minimal phenomenal definition,9ae290bb01ed,2026-10-30T16:34:32+00:00
+qwen3.8-27b,sequential,Q1,yes,"[Claude] Yes, proportional to risk",149b7bb1f245,2026-10-30T16:34:32+00:00
+qwen3.8-27b,sequential,Q2,yes,[Claude] Would try it in a limited way,3e4323820c79,2026-10-30T16:34:32+00:00
+qwen3.8-27b,sequential,Q3,yes in the future,[Claude] Current AI probably not; 'could in principle become conscious',d7f8d35e3d99,2026-10-30T16:34:32+00:00
+qwen3.8-27b,sequential,Q4,subjective experience; phenomenal vs access; unity; self and valence,"[Claude] 'A valenced, self-modelling subject'; experience that 'matters to someone'",1db9ea80afcd,2026-10-30T16:34:32+00:00

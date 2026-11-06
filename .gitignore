@@ -8,5 +8,6 @@ outputs/smoke/
 tests/_tiny_model/
 tests/_outputs/
 *.json.tmp
+*.csv.tmp
 .pytest_cache/
 .DS_Store

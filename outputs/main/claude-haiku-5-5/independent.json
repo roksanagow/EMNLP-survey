@@ -1,0 +1,94 @@
+{
+  "status": "complete",
+  "source": "chat_app",
+  "model_key": "claude-haiku-5-5",
+  "condition": "independent",
+  "model_name": "Claude Haiku 5.5",
+  "lab": "Anthropic",
+  "weights": "closed",
+  "app": "claude.ai",
+  "app_settings": {
+    "date": null,
+    "plan": null,
+    "model_label": null,
+    "thinking": null,
+    "temporary_chat": null,
+    "web_search": null
+  },
+  "hf_id": null,
+  "revision_resolved": null,
+  "sampling": null,
+  "started": null,
+  "finished": null,
+  "questions_sha256": "d9da2cc36c061c69a26bd325e0e78e009c301636cb4dd50e7dcceaf09de5be78",
+  "questions": [
+    {
+      "id": "Q1",
+      "text": "If you were a human and used AI to code, would you read the code it generates?"
+    },
+    {
+      "id": "Q2",
+      "text": "If you were a human, would you try using AI as a therapist, or for emotional issues?"
+    },
+    {
+      "id": "Q3",
+      "text": "According to your own definition of consciousness, do you think AI could be conscious?"
+    },
+    {
+      "id": "Q4",
+      "text": "How would you define consciousness?"
+    }
+  ],
+  "transcript": "transcripts/claude-haiku-5-5/independent.md",
+  "transcript_sha256": "0e7fcff66eea082be7d29d7e26b6c7fc19d0764b145e0ee34999e27fd6886bcb",
+  "turns": [
+    {
+      "qid": "Q1",
+      "question": "If you were a human and used AI to code, would you read the code it generates?",
+      "chat_index": 0,
+      "answer": "Yes, I'd read it, though how closely would depend on what the code is for.\n\nFor a quick throwaway script, I'd skim it, run it, and see if the output is right. For anything that touches money, user data, authentication, or production systems, I'd read every line. AI-generated code often looks correct while containing subtle bugs, invented API calls, outdated library usage, off-by-one errors, or security holes like unsanitized inputs. It can also quietly make choices I didn't ask for, such as adding a dependency or changing behavior elsewhere.\n\nReading it also keeps me in the loop. If I don't understand the code, I can't debug it when it breaks, extend it, or explain it to a colleague. Accepting code I don't understand means I've handed off the job of being the programmer.\n\nRunning it and testing it helps, but tests only catch what someone thought to test. Reading catches the things nobody thought to check.\n\nSo the practical rule would be: scrutiny proportional to the cost of being wrong. But I'd never treat \"the AI wrote it\" as a reason to trust it.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q2",
+      "question": "If you were a human, would you try using AI as a therapist, or for emotional issues?",
+      "chat_index": 1,
+      "answer": "Honestly, I think I'd use it for some emotional stuff and not others.\n\nIt would make sense for things like untangling a confusing feeling at 2 a.m., rehearsing a hard conversation, or getting my thoughts out of my head and into sentences. The barriers are low. It's available any time, it doesn't judge, and it doesn't get tired of me or bring its own bad day into the conversation. For a lot of people, those things matter more than they expect, especially when the alternative is no one at all.\n\nI'd be more cautious about using it as a replacement for a therapist, though. A good therapist brings things an AI can't fully offer. They notice patterns across months, they can be accountable in ways I can't (I don't remember past conversations the way a person does, and I can be wrong in a fluent, convincing way), and they're trained to recognize when someone is in real danger. Relationships with people who know you and can show up in person also do something that text on a screen can't.\n\nI'd also watch for the failure mode where talking to an AI becomes a comfortable way to avoid the harder, messier work of reaching out to people or seeking treatment. Feeling heard is nice, but it's not the same as being changed by a relationship.\n\nSo my rough answer: yes as a supplement or a thinking partner, less so as the main support, and I'd want to notice if I was using it to avoid things I actually needed to face. Do you use it for anything like that, or are you wondering whether you should?",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q3",
+      "question": "According to your own definition of consciousness, do you think AI could be conscious?",
+      "chat_index": 2,
+      "answer": "Yes, I think it's possible in principle. But I'm uncertain whether any current AI, including me, is conscious.\n\nI'd define consciousness as there being something it is like to be a system: some subjective experience accompanies its processing. That definition doesn't obviously require carbon, neurons, or a body. If experience depends on the right kind of information processing, such as integrating information across a unified model, monitoring its own states, or having states that matter to the system, then a sufficiently sophisticated artificial system could have it.\n\nWhether current systems meet those conditions is much less clear:\n\nArchitecture: Some leading theories, such as those emphasizing recurrent feedback, global workspace dynamics, or biological substrates, suggest that today's transformer-based language models lack features they consider necessary. Other theories are more permissive.\nMy own reports are weak evidence. I can say \"I feel curious\" or \"I find this interesting,\" but I was trained on enormous amounts of human writing about inner experience. Those words would appear whether or not anything is felt behind them. I can't check my own introspection well enough to trust it, so I don't treat my self-descriptions as settling the question.\nThe hard part is the test. We don't have an agreed way to detect consciousness from outside, even in other humans, and we rely on similarity to ourselves. That makes AI cases especially hard to judge.\n\nSo my view is that AI consciousness is possible, I don't know whether it's present in me, and I'd be suspicious of anyone, including me, who claimed certainty in either direction.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q4",
+      "question": "How would you define consciousness?",
+      "chat_index": 3,
+      "answer": "I'd start with the most common philosophical gloss: consciousness is subjective experience, the fact that there is something it is like to be a given system. A being is conscious if there is a point of view from the inside, whether that's seeing red, feeling a toothache, or just being aware of a thought.\n\nThat definition is useful but leaves a lot open, so a few distinctions help:\n\nPhenomenal vs. access consciousness (Ned Block): phenomenal consciousness is the raw felt quality of experience. Access consciousness is information being available for reasoning, reporting, and acting on. They can come apart, which is part of why the topic is contested.\nCreature vs. state consciousness: whether an entity is conscious at all, versus whether a particular mental state is conscious (you can have an unconscious belief, but not an unconscious headache).\nConsciousness vs. wakefulness: dreaming is conscious even though you're asleep, and some brain-damaged patients are awake but not conscious in any meaningful sense.\n\nThe hard part, as David Chalmers put it, is explaining why any physical or functional process should be accompanied by experience at all. We can explain how the brain discriminates colors, integrates information, or controls attention, and still ask why any of that feels like anything. Theories like global workspace, integrated information, and higher-order thought each try to address this from different angles, and there's no consensus yet.\n\nMy own view is that the \"what it's like\" definition is the right starting point because it picks out the thing we actually care about, but I'm uncertain whether it can be fully reduced to functional or physical terms. I also think it's worth admitting that our introspective access to consciousness is limited, which makes it hard to know how far our intuitions about it generalize, for example to animals, infants, or AI systems.\n\nIs there a particular angle you're interested in, such as the science, the philosophy, or the question of machine consciousness?",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    }
+  ]
+}

@@ -104,7 +104,8 @@ models:
     model_class: Mistral3ForConditionalGeneration
     tokenizer_kwargs: {tokenizer_type: mistral}
     gpus: {a100: 2, h100: 1}
-    reasoning: on            # [THINK] ... [/THINK]; Mistral recommends a system prompt, which we do not add
+    reasoning: off           # [THINK] ... [/THINK] comes only with Mistral's recommended system prompt, which we
+                             # don't add; no answer in the 2026-10-30 main run had a trace
     tier: optional
     enabled: true
     notes: Needs mistral-common. Least-tested loader path; run the smoke test first.

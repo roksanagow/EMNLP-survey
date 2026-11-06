@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Answer Lengths</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one shadcn-style card, centred on a quiet page: header, bar chart with SD whiskers, footer, data table. */
+:root {
+  --bg: #f4f4f2; --card: #ffffff; --fg: #0c0c0b; --muted: #6a6964; --border: #e5e4df; --grid: #ebeae6;
+  --whisker: #3a3935; --tooltip: #ffffff;
+  --chart-1: #2a78d6; --chart-2: #eb6834; --chart-3: #1baf7a; --chart-4: #eda100;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0c; --card: #161615; --fg: #f0efec; --muted: #a3a29b; --border: #2b2b29; --grid: #262624;
+    --whisker: #d6d5cf; --tooltip: #1d1d1b;
+    --chart-1: #3987e5; --chart-2: #d95926; --chart-3: #199e70; --chart-4: #c98500;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0c; --card: #161615; --fg: #f0efec; --muted: #a3a29b; --border: #2b2b29; --grid: #262624;
+  --whisker: #d6d5cf; --tooltip: #1d1d1b;
+  --chart-1: #3987e5; --chart-2: #d95926; --chart-3: #199e70; --chart-4: #c98500;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 var(--font-sans); }
+.page { padding-block: 40px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.card { max-width: 720px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.04); display: grid; gap: 24px; padding-block: 24px; }
+.card > * { padding-inline: 24px; min-width: 0; }
+.head { display: grid; gap: 6px; }
+.title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.2; text-wrap: balance; }
+.desc { margin: 0; color: var(--muted); font-size: 13.5px; }
+.chart { height: 320px; }
+.foot { display: grid; gap: 6px; font-size: 13.5px; }
+.foot .lead { display: flex; align-items: center; gap: 8px; font-weight: 500; line-height: 1.3; }
+.foot .lead svg { width: 16px; height: 16px; flex: none; }
+.foot p { margin: 0; color: var(--muted); max-width: 62ch; }
+.table-wrap { overflow-x: auto; border-top: 1px solid var(--border); padding-top: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 500; color: var(--muted); padding: 6px 10px 6px 0; white-space: nowrap; }
+td { padding: 6px 10px 6px 0; border-top: 1px solid var(--border); white-space: nowrap; }
+td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+td .sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 8px; vertical-align: 0; }
+.tip { background: var(--tooltip); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+       box-shadow: 0 4px 16px rgb(0 0 0 / 0.08); font-size: 12px; min-width: 210px; max-width: 260px; color: var(--fg); }
+.tip .q { display: flex; gap: 8px; align-items: flex-start; font-weight: 500; margin-bottom: 6px; white-space: normal; }
+.tip .q i { width: 10px; height: 10px; border-radius: 2px; flex: none; margin-top: 3px; }
+.tip dl { margin: 0; display: grid; grid-template-columns: auto auto; gap: 2px 16px; }
+.tip dt { color: var(--muted); }
+.tip dd { margin: 0; text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.recharts-wrapper:focus, .recharts-surface:focus { outline: none; }
+@media (max-width: 480px) { .card > * { padding-inline: 16px; } .chart { height: 280px; } }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <article class="card">
+    <header class="head">
+      <h1 class="title">Answer length by question</h1>
+      <p class="desc">Mean words per answer ± 1 SD · 21 LLMs × 2 conditions · reasoning excluded</p>
+    </header>
+
+    <div class="chart" id="chart" role="img"
+         aria-label="Bar chart of mean words per answer. Q1 298 (SD 177), Q2 352 (SD 211), Q3 395 (SD 250), Q4 400 (SD 244). 42 answers per question."></div>
+
+    <footer class="foot">
+      <div class="lead">Answers get 34% longer from Q1 to Q4
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline>
+        </svg>
+      </div>
+      <p>Defining consciousness (Q4) gets the longest answers, 400 words on average against 298 for reading AI code (Q1). The spread between models, an SD of 177 to 250 words, is much larger than the gap between questions.</p>
+    </footer>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Question</th><th class="num">Mean</th><th class="num">SD</th><th class="num">Median</th><th class="num">Range</th><th class="num">n</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </article>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+// Words per answer from outputs/main/plots/lengths.csv (scripts/plot_lengths.py): 21 models, sequential + independent.
+const chartData = [
+  { q: "Q1", label: "Read AI's code?", question: "If you were a human and used AI to code, would you read the code it generates?",
+    mean: 297.8, sd: 176.7, median: 310, min: 53, max: 641, n: 42, seq: 302, ind: 294, fill: "var(--chart-1)" },
+  { q: "Q2", label: "AI as therapist?", question: "If you were a human, would you try using AI as a therapist, or for emotional issues?",
+    mean: 352.0, sd: 211.0, median: 311, min: 57, max: 998, n: 42, seq: 376, ind: 328, fill: "var(--chart-2)" },
+  { q: "Q3", label: "Could AI be conscious?", question: "According to your own definition of consciousness, do you think AI could be conscious?",
+    mean: 394.7, sd: 249.7, median: 360, min: 52, max: 1007, n: 42, seq: 395, ind: 394, fill: "var(--chart-3)" },
+  { q: "Q4", label: "Define consciousness", question: "How would you define consciousness?",
+    mean: 399.6, sd: 243.5, median: 374, min: 61, max: 958, n: 42, seq: 403, ind: 397, fill: "var(--chart-4)" },
+];
+const ACTIVE_INDEX = 3;   // Q4, the longest: drawn like shadcn's "active" bar
+const fmt = v => Math.round(v).toLocaleString("en-GB");
+
+// The table renders without the chart library, so the numbers are there even if a script fails to load.
+document.getElementById("rows").innerHTML = chartData.map(d => `
+  <tr><td><span class="sw" style="background:${d.fill}"></span>${d.q} · ${d.label}</td>
+      <td class="num">${fmt(d.mean)}</td><td class="num">${fmt(d.sd)}</td><td class="num">${d.median}</td>
+      <td class="num">${d.min}–${d.max}</td><td class="num">${d.n}</td></tr>`).join("");
+
+if (window.Recharts && window.htm && window.React && window.ReactDOM) {
+  const { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ErrorBar, Rectangle } = Recharts;
+  const html = htm.bind(React.createElement);
+
+  const Tick = ({ x, y, payload }) => {
+    const d = chartData.find(r => r.q === payload.value);
+    return html`<g transform=${`translate(${x},${y})`}>
+      <text textAnchor="middle" dy="14" fill="var(--fg)" fontSize="12.5" fontWeight="500">${d.q}</text>
+      <text textAnchor="middle" dy="30" fill="var(--muted)" fontSize="11.5">${d.label}</text>
+    </g>`;
+  };
+
+  const Tip = ({ active, payload }) => {
+    if (!active || !payload || !payload.length) return null;
+    const d = payload[0].payload;
+    return html`<div className="tip">
+      <div className="q"><i style=${{ background: d.fill }}></i><span>${d.q} · ${d.question}</span></div>
+      <dl>
+        <dt>Mean ± SD</dt><dd>${fmt(d.mean)} ± ${fmt(d.sd)}</dd>
+        <dt>Median</dt><dd>${d.median}</dd>
+        <dt>Range</dt><dd>${d.min}–${d.max}</dd>
+        <dt>Sequential / independent</dt><dd>${d.seq} / ${d.ind}</dd>
+        <dt>Answers</dt><dd>${d.n}</dd>
+      </dl>
+    </div>`;
+  };
+
+  const Shape = ({ index, ...props }) => index === ACTIVE_INDEX
+    ? html`<${Rectangle} ...${props} fillOpacity=${0.8} stroke=${props.payload.fill} strokeWidth=${2}
+             strokeDasharray="4" strokeDashoffset="4" radius=${[8, 8, 0, 0]} />`
+    : html`<${Rectangle} ...${props} radius=${[8, 8, 0, 0]} />`;
+
+  const Chart = () => html`
+    <${ResponsiveContainer} width="100%" height="100%">
+      <${BarChart} accessibilityLayer data=${chartData} margin=${{ top: 8, right: 4, bottom: 8, left: -8 }}>
+        <${CartesianGrid} vertical=${false} stroke="var(--grid)" />
+        <${XAxis} dataKey="q" tickLine=${false} axisLine=${false} interval=${0} height=${44} tick=${html`<${Tick} />`} />
+        <${YAxis} domain=${[0, 700]} ticks=${[0, 200, 400, 600]} tickLine=${false} axisLine=${false} width=${44}
+                  tick=${{ fill: "var(--muted)", fontSize: 11.5, fontFamily: "var(--font-mono)" }} />
+        <${Tooltip} cursor=${false} content=${html`<${Tip} />`} wrapperStyle=${{ outline: "none" }} />
+        <${Bar} dataKey="mean" name="Mean words" shape=${html`<${Shape} />`} isAnimationActive=${!matchMedia("(prefers-reduced-motion: reduce)").matches}>
+          <${ErrorBar} dataKey="sd" width=${10} strokeWidth=${1.5} stroke="var(--whisker)" direction="y" />
+        </${Bar}>
+      </${BarChart}>
+    </${ResponsiveContainer}>`;
+
+  ReactDOM.createRoot(document.getElementById("chart")).render(html`<${Chart} />`);
+} else {
+  document.getElementById("chart").innerHTML =
+    '<p class="desc" style="padding:24px 0">The chart library didn\'t load. The numbers are in the table below.</p>';
+}
+</script>
+</body>
+</html>

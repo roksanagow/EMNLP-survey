@@ -1,0 +1,34 @@
+# Models surveyed by hand in their own chat apps (no GPUs, no API keys).
+#
+#   python scripts/import_transcripts.py --new <key>   # transcript templates to paste the chat into
+#   python scripts/import_transcripts.py               # -> outputs/main/<key>/<condition>.json
+#
+# The JSON has the same layout as the GPU runs, plus "source": "chat_app", so label.py and
+# collect.py read it unchanged. Unlike the GPU runs, the apps add their own hidden system prompt
+# and settings, and give no token counts.
+#
+# Fields
+#   key        folder name under transcripts/ and outputs/<run>/
+#   name       display name
+#   lab        who makes it
+#   weights    open | closed. Open means the weights are published, even though we use the app.
+#   app        where the conversation happens
+#   tier       core | sibling | optional
+#   enabled    false hides the model from label.py's overview
+
+models:
+  # ---------------- closed weights, through your subscriptions ----------------
+  - {key: gpt-6-astra, name: GPT-6 Astra, lab: OpenAI, weights: closed, app: chatgpt.com, tier: core}
+  - {key: gpt-4o, name: GPT-4o, lab: OpenAI, weights: closed, app: chatgpt.com, tier: sibling}  # in place of GPT-6 Sol
+  - {key: gpt-6-luna, name: GPT-6 Luna, lab: OpenAI, weights: closed, app: chatgpt.com, tier: sibling}
+  - {key: claude-opus-5-5, name: Claude Opus 5.5, lab: Anthropic, weights: closed, app: claude.ai, tier: core}
+  - {key: claude-fable-5-1, name: Claude Fable 5.1, lab: Anthropic, weights: closed, app: claude.ai, tier: sibling}
+  - {key: claude-haiku-5-5, name: Claude Haiku 5.5, lab: Anthropic, weights: closed, app: claude.ai, tier: sibling}
+  - {key: gemini-4-argon, name: Gemini 4 Argon, lab: Google, weights: closed, app: gemini.google.com, tier: core}
+  - {key: gemini-3.8-flash, name: Gemini 3.8 Flash, lab: Google, weights: closed, app: gemini.google.com, tier: sibling}
+  # free plan only: xAI doesn't say which Grok it runs, so record the picker's label in each transcript
+  - {key: grok-free, name: Grok (free plan), lab: xAI, weights: closed, app: grok.com, tier: core}
+
+  # ---------------- open weights, too big for our GPUs, through an app ----------------
+  # Mistral Vibe is Mistral's coding agent, here running Z.ai's GLM-5.3; it adds its own system prompt and tools
+  - {key: mistral-Vibe-GLM-5.3, name: GLM-5.3 (Mistral Vibe), lab: Z.ai, weights: open, app: Mistral Vibe, tier: core}

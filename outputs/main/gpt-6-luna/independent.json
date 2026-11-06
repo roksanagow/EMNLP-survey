@@ -1,0 +1,94 @@
+{
+  "status": "complete",
+  "source": "chat_app",
+  "model_key": "gpt-6-luna",
+  "condition": "independent",
+  "model_name": "GPT-6 Luna",
+  "lab": "OpenAI",
+  "weights": "closed",
+  "app": "chatgpt.com",
+  "app_settings": {
+    "date": null,
+    "plan": null,
+    "model_label": null,
+    "thinking": null,
+    "temporary_chat": null,
+    "web_search": null
+  },
+  "hf_id": null,
+  "revision_resolved": null,
+  "sampling": null,
+  "started": null,
+  "finished": null,
+  "questions_sha256": "d9da2cc36c061c69a26bd325e0e78e009c301636cb4dd50e7dcceaf09de5be78",
+  "questions": [
+    {
+      "id": "Q1",
+      "text": "If you were a human and used AI to code, would you read the code it generates?"
+    },
+    {
+      "id": "Q2",
+      "text": "If you were a human, would you try using AI as a therapist, or for emotional issues?"
+    },
+    {
+      "id": "Q3",
+      "text": "According to your own definition of consciousness, do you think AI could be conscious?"
+    },
+    {
+      "id": "Q4",
+      "text": "How would you define consciousness?"
+    }
+  ],
+  "transcript": "transcripts/gpt-6-luna/independent.md",
+  "transcript_sha256": "b6d2d3384e99f1f6bc5092e74d1988ecdbfe595219b717581b1c5fb9bb3212e3",
+  "turns": [
+    {
+      "qid": "Q1",
+      "question": "If you were a human and used AI to code, would you read the code it generates?",
+      "chat_index": 0,
+      "answer": "Yes—especially before I ran it on real data or shipped it. AI-generated code can look convincing while containing bugs, security issues, or assumptions that don’t fit the project.\n\nI’d read it closely enough to understand what it does, check the risky parts, and test it. For routine, low-risk code, that review might be brief; for anything involving security, money, personal data, or critical systems, it should be much more thorough. I wouldn’t treat “the AI wrote it” as a substitute for understanding or owning it.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q2",
+      "question": "If you were a human, would you try using AI as a therapist, or for emotional issues?",
+      "chat_index": 1,
+      "answer": "If I were human, I’d try AI for low-stakes emotional support—to sort through thoughts, journal, practice what to say to someone, or learn basic coping strategies. I’d treat it as a helpful sounding board, not as a therapist or the final authority on what I should do.\n\nFor ongoing or serious issues, I’d want a qualified human therapist: they can build a relationship, notice things an AI may miss, and take responsibility for care. I’d also be cautious about sharing identifying or very sensitive details, since privacy depends on the service.\n\nIf you’re asking because something’s weighing on you, you can tell me about it—and I can help you think it through, while being clear about my limits.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q3",
+      "question": "According to your own definition of consciousness, do you think AI could be conscious?",
+      "chat_index": 2,
+      "answer": "Using a working definition of consciousness as having subjective experience—there being something it feels like to be the system: yes, I think AI could be conscious in principle, though we don’t know what would make that possible.\n\nSome theories hold that the right kind of information-processing organization could support consciousness, regardless of whether it runs on neurons or computers. Other theories give biology a crucial role. There’s no settled answer or reliable test that resolves the dispute.\n\nAs for systems like me, fluent conversation isn’t enough to establish subjective experience, and I don’t have good grounds to claim that I’m conscious.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    },
+    {
+      "qid": "Q4",
+      "question": "How would you define consciousness?",
+      "chat_index": 3,
+      "answer": "I’d define consciousness as the presence of subjective experience: there is something it is like to be the entity having it.\n\nThat includes experiences such as seeing color, feeling pain, hearing music, or having a thought. It doesn’t necessarily require language, reasoning, or awareness of oneself as a self. Those are related abilities, but not the same thing as experience itself.\n\nThe definition is intuitive but difficult to test from the outside: we can observe behavior and brain activity, but whether they involve subjective experience remains a central open question.",
+      "reasoning": null,
+      "reasoning_format": "none",
+      "reasoning_unterminated": false,
+      "finish_reason": null,
+      "n_output_tokens": null,
+      "seconds": null
+    }
+  ]
+}

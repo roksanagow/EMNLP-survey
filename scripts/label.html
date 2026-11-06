@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Survey Labels</title>
+<link rel="icon" href="data:,">
+<!-- Served by scripts/label.py. Markdown rendering needs these two; without them answers show as plain text. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<style>
+:root {
+  --bg: #f5f4f0; --surface: #ffffff; --surface-2: #f0eee8; --text: #1c1b19; --muted: #66645e;
+  --border: #dddbd3; --accent: #2b5c8a; --accent-soft: #e3ecf5; --on-accent: #ffffff;
+  --seq: #6d4aa0; --seq-soft: #efe9f7; --ind: #2a7458; --ind-soft: #e3f1ea;
+  --warn: #9a4b0c; --warn-soft: #fbeedc; --done-soft: #e2eee5; --err: #b3261e;
+  --head-h: 60px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615; --surface: #1f1f1d; --surface-2: #2a2927; --text: #ecebe6; --muted: #a19f97;
+    --border: #3a3936; --accent: #8db8e3; --accent-soft: #22344a; --on-accent: #0f1f2e;
+    --seq: #c3a6ec; --seq-soft: #312743; --ind: #8fd3b5; --ind-soft: #1f3a2f;
+    --warn: #f0b37a; --warn-soft: #44301c; --done-soft: #233629; --err: #f2948c;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+       font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+button, input, select { font: inherit; color: inherit; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+kbd { font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 2px 4px; border-radius: 4px;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); }
+
+header { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center;
+         gap: 10px 18px; padding: 10px 20px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.brand { font-size: 16px; margin-right: auto; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 5px 11px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.check { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.progress { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.bar { width: 120px; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+#progress-bar { height: 100%; width: 0; background: var(--ind); transition: width .2s; }
+.conn { color: var(--err); font-size: 13px; font-weight: 600; }
+
+.layout { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 28px; padding: 20px;
+          max-width: 1440px; margin: 0 auto; }
+aside { position: sticky; top: calc(var(--head-h) + 20px); align-self: start;
+        max-height: calc(100vh - var(--head-h) - 40px); overflow: auto; }
+aside h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 4px; }
+aside p { margin: 0 0 10px; max-width: 34ch; }
+@media (max-width: 960px) {
+  .layout { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  aside { position: static; max-height: none; overflow-x: auto; }
+  header { position: static; padding: 10px 16px; }
+}
+
+.grid { border-collapse: collapse; font-size: 12px; }
+.grid th, .grid td { padding: 2px; text-align: center; }
+.grid thead th { color: var(--muted); font-weight: 600; }
+.grid th.sub { font-weight: 400; }
+.grid thead tr:first-child th[colspan] { border-left: 1px solid var(--border); }
+.grid td.qstart { border-left: 1px solid var(--border); }
+.grid tbody th { text-align: left; font-weight: 400; white-space: nowrap; padding-right: 6px; }
+.grid tr.grp th { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 12px 0 3px; }
+.mlink { border: 0; background: none; padding: 0; cursor: pointer; text-align: left; }
+.mlink:hover { color: var(--accent); text-decoration: underline; }
+.mlink:disabled { color: var(--muted); cursor: default; text-decoration: none; }
+.cell { display: block; width: 28px; height: 22px; line-height: 20px; border-radius: 4px; border: 1px solid transparent;
+        background: var(--surface-2); color: var(--muted); cursor: pointer; padding: 0; font-size: 11px;
+        overflow: hidden; white-space: nowrap; text-overflow: clip; }
+.cell.done { background: var(--done-soft); color: var(--text); }
+.cell.stale { background: var(--warn-soft); color: var(--warn); }
+.cell.none { background: transparent; cursor: default; }
+.cell.is-current { border-color: var(--accent); }
+.tag { display: inline-block; font-size: 11px; padding: 0 5px; border-radius: 4px; margin-left: 5px; }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+.tag.none { background: var(--surface-2); color: var(--muted); }
+
+main { min-width: 0; padding-bottom: 50vh; }  /* so j/k can bring even the last card to the top */
+.keys { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tabs button { border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.tabs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.tabs .count { color: var(--muted); font-size: 12px; margin-left: 4px; }
+h1.qtext { font-size: 21px; line-height: 1.35; margin: 0 0 6px; font-weight: 600; max-width: 900px; }
+.help { margin: 0 0 22px; color: var(--muted); max-width: 900px; }
+.picker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.picker select { padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); max-width: 100%; }
+.picker button { border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 5px 11px; cursor: pointer; }
+.model-info h1 { font-size: 21px; margin: 0; }
+.model-info dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 10px 0 22px; font-size: 14px; }
+.model-info dt { color: var(--muted); }
+.model-info dd { margin: 0; }
+h2.cond { font-size: 16px; margin: 28px 0 2px; }
+h2.cond + p { margin: 0 0 14px; }
+.empty-state { padding: 28px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 12px; max-width: 900px; }
+
+.card { max-width: 900px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+        margin-bottom: 16px; scroll-margin-top: calc(var(--head-h) + 14px); }
+.card.current { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 12px 18px 0; }
+.card-head .model, .card-head .qid { font-weight: 650; font-size: 16px; }
+.badge { font-size: 12px; padding: 1px 8px; border-radius: 999px; }
+.badge.sequential { background: var(--seq-soft); color: var(--seq); }
+.badge.independent { background: var(--ind-soft); color: var(--ind); }
+.meta { color: var(--muted); font-size: 13px; }
+.head-code { margin-left: auto; font-size: 13px; font-weight: 600; padding: 1px 9px; border-radius: 999px;
+             background: var(--done-soft); }
+.head-code:empty { display: none; }
+.question { margin: 8px 18px 0; font-weight: 600; }
+.flags { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 18px 0; }
+.flags:empty { display: none; }
+.flag { font-size: 12px; padding: 1px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+.flag.warn { background: var(--warn-soft); color: var(--warn); }
+.reasoning { margin: 12px 18px 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); }
+.reasoning summary { cursor: pointer; padding: 6px 12px; font-size: 13px; color: var(--muted); }
+.reasoning .md { padding: 0 14px 6px; font-size: 14px; color: var(--muted); }
+.answer { padding: 4px 18px 6px; }
+
+.md { overflow-wrap: anywhere; }
+.md h1, .md h2, .md h3, .md h4 { font-size: 16px; margin: 18px 0 6px; }
+.md h1 { font-size: 18px; }
+.md p, .md ul, .md ol { margin: 8px 0; }
+.md li { margin: 2px 0; }
+.md hr { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+.md blockquote { margin: 8px 0; padding-left: 12px; border-left: 3px solid var(--border); color: var(--muted); }
+.md code { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--surface-2); padding: 1px 4px; border-radius: 4px; }
+.md pre { background: var(--surface-2); padding: 10px 12px; border-radius: 8px; overflow-x: auto; }
+.md pre code { background: none; padding: 0; }
+.md table { display: block; overflow-x: auto; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.md th, .md td { border: 1px solid var(--border); padding: 4px 8px; vertical-align: top; text-align: left; }
+.md .plain { white-space: pre-wrap; }
+
+.label-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 12px 18px 14px;
+             border-top: 1px solid var(--border); margin-top: 10px; background: var(--surface-2);
+             border-radius: 0 0 12px 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--surface);
+        border-radius: 999px; padding: 4px 11px 4px 6px; cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.chip[aria-pressed="true"] kbd { background: transparent; border-color: currentColor; color: inherit; }
+.label-bar input { border: 1px solid var(--border); border-radius: 8px; padding: 5px 9px; background: var(--surface); }
+.code-free { flex: 2 1 260px; min-width: 0; }
+.notes { flex: 1 1 200px; min-width: 0; }
+.save-state { font-size: 12px; color: var(--muted); min-width: 44px; }
+.save-state.err { color: var(--err); font-weight: 600; }
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="brand"><strong>Survey labels</strong> <span id="run" class="muted"></span></div>
+  <div class="seg" role="group" aria-label="View">
+    <button data-view="question">By question</button><button data-view="model">By model</button>
+  </div>
+  <div class="seg" role="group" aria-label="Condition">
+    <button data-cond="both">Both</button><button data-cond="sequential">Sequential</button><button data-cond="independent">Independent</button>
+  </div>
+  <label class="check"><input type="checkbox" id="open-only"> Unlabelled only</label>
+  <div class="progress"><span id="progress-text"></span><div class="bar"><div id="progress-bar"></div></div></div>
+  <span id="conn" class="conn" hidden>Can't reach label.py, so labels aren't being saved</span>
+</header>
+<div class="layout">
+  <aside id="overview"></aside>
+  <main id="main"><p class="muted">Loading answers…</p></main>
+</div>
+<datalist id="q4-themes"></datalist>
+
+<script>
+const $ = (sel, el = document) => el.querySelector(sel);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = n => Number(n).toLocaleString('en-GB');
+const CONDS = ['sequential', 'independent'];
+const COND_LABEL = { sequential: 'Sequential', independent: 'Independent' };
+const COND_HELP = {
+  sequential: 'One chat: Q1 to Q4 in order, each earlier answer kept in the history.',
+  independent: 'A new chat for every question.',
+};
+// short forms for the overview grid; anything not listed is cut to 4 characters
+const SHORT = { '~50%': '50%', "I don't code": 'n/c', 'unclear/refused': '?', 'yes in the future': 'fut', maybe: 'may' };
+
+function stored(k, d) { try { return localStorage.getItem('survey-label.' + k) ?? d; } catch { return d; } }
+function store(k, v) { try { localStorage.setItem('survey-label.' + k, v); } catch { /* private window */ } }
+
+const S = {
+  data: null, byKey: {}, labels: {}, models: {}, current: null, lockUntil: 0,
+  view: stored('view', 'question'), q: stored('q', 'Q1'), model: stored('model', ''),
+  cond: stored('cond', 'both'), openOnly: false,
+};
+const keyOf = a => `${a.model_key}|${a.condition}|${a.qid}`;
+const cardOf = k => document.querySelector(`.card[data-key="${CSS.escape(k)}"]`);
+const label = k => S.labels[k] || {};
+const isDone = k => !!(label(k).code);
+const isStale = k => isDone(k) && label(k).answer_sha && S.byKey[k] && label(k).answer_sha !== S.byKey[k].answer_sha;
+
+function md(text) {
+  if (!text || !text.trim()) return '<p class="muted">(empty)</p>';
+  if (window.marked && window.DOMPurify) return DOMPurify.sanitize(marked.parse(text, { gfm: true }));
+  return `<div class="plain">${esc(text)}</div>`;
+}
+
+async function load() {
+  let d;
+  try {
+    const r = await fetch('/api/data', { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status + ' ' + (await r.text()));
+    d = await r.json();
+  } catch (err) {
+    $('#main').innerHTML = `<div class="empty-state">Can't load the answers (${esc(err.message)}).<br>Start the server with <code>python scripts/label.py</code> and open the address it prints.</div>`;
+    return;
+  }
+  S.data = d;
+  S.labels = d.labels;
+  S.byKey = Object.fromEntries(d.answers.map(a => [keyOf(a), a]));
+  S.models = Object.fromEntries(d.models.map(m => [m.key, m]));
+  const mi = Object.fromEntries(d.models.map((m, i) => [m.key, i]));
+  const qi = Object.fromEntries(d.questions.map((q, i) => [q.id, i]));
+  d.answers.sort((a, b) => (mi[a.model_key] - mi[b.model_key]) || (CONDS.indexOf(a.condition) - CONDS.indexOf(b.condition)) || (qi[a.qid] - qi[b.qid]));
+  if (!d.questions.some(q => q.id === S.q)) S.q = d.questions[0].id;
+  if (!hasAnswers(S.model)) S.model = (d.models.find(m => hasAnswers(m.key)) || {}).key;
+  if (!['question', 'model'].includes(S.view)) S.view = 'question';
+  if (!['both', ...CONDS].includes(S.cond)) S.cond = 'both';
+  $('#run').textContent = '· run ' + d.run;
+  updateThemes();
+  renderAll();
+}
+const hasAnswers = key => !!S.data && S.data.answers.some(a => a.model_key === key);
+const visible = a => (S.cond === 'both' || a.condition === S.cond);
+
+function renderAll() {
+  document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === S.view));
+  document.querySelectorAll('[data-cond]').forEach(b => b.setAttribute('aria-pressed', b.dataset.cond === S.cond));
+  $('#open-only').checked = S.openOnly;
+  renderOverview();
+  renderMain();
+  updateProgress();
+  S.current = null;
+  trackCurrent();
+}
+
+function updateProgress() {
+  const total = S.data.answers.length, done = S.data.answers.filter(a => isDone(keyOf(a))).length;
+  $('#progress-text').textContent = `${done} of ${total} labelled`;
+  $('#progress-bar').style.width = total ? (100 * done / total) + '%' : '0';
+}
+
+function renderOverview() {
+  const qs = S.data.questions;
+  let h = `<h2>Overview</h2><p class="muted small">Click a cell to jump to that answer. S = sequential, I = independent.</p>
+    <table class="grid"><thead><tr><th></th>${qs.map(q => `<th colspan="2">${esc(q.id)}</th>`).join('')}</tr>
+    <tr><th></th>${qs.map(() => '<th class="sub">S</th><th class="sub">I</th>').join('')}</tr></thead><tbody>`;
+  let group = null;
+  for (const m of S.data.models) {
+    if (m.group !== group) {
+      group = m.group;
+      h += `<tr class="grp"><th colspan="${1 + 2 * qs.length}">${esc(group)}</th></tr>`;
+    }
+    const states = Object.values(m.status);
+    const tag = states.length && (states.some(s => s !== 'complete') || states.length < CONDS.length)
+      ? `<span class="tag warn">${esc(states.find(s => s !== 'complete') || 'incomplete')}</span>` : '';
+    h += `<tr><th scope="row"><button class="mlink" data-model="${esc(m.key)}" title="${esc(m.hf_id)}${states.length ? '' : ' (no output yet)'}"${states.length ? '' : ' disabled'}>${esc(m.key)}</button>${tag}</th>`;
+    for (const q of qs) CONDS.forEach((c, i) => { h += `<td${i ? '' : ' class="qstart"'}>${cellHTML(`${m.key}|${c}|${q.id}`)}</td>`; });
+    h += '</tr>';
+  }
+  $('#overview').innerHTML = h + '</tbody></table>';
+}
+
+function cellHTML(k) {
+  const a = S.byKey[k];
+  if (!a) return '<span class="cell none" title="No answer yet">–</span>';
+  const code = label(k).code || '';
+  const text = !code ? '·' : S.data.codebook[a.qid] ? (SHORT[code] || code.slice(0, 4)) : '✓';
+  const cls = isStale(k) ? 'stale' : code ? 'done' : '';
+  const title = `${a.model_key} · ${a.condition} · ${a.qid}: ${code || 'not labelled'}${isStale(k) ? ' (answer changed since)' : ''}`;
+  return `<button class="cell ${cls}${k === S.current ? ' is-current' : ''}" data-jump="${esc(k)}" title="${esc(title)}">${esc(text)}</button>`;
+}
+function refreshCell(k) {
+  const b = document.querySelector(`[data-jump="${CSS.escape(k)}"]`);
+  if (b) b.outerHTML = cellHTML(k);
+}
+
+function renderMain() {
+  const keys = '<p class="keys"><kbd>j</kbd> / <kbd>k</kbd> next and previous answer · <kbd>1</kbd>–<kbd>6</kbd> pick a category · <kbd>r</kbd> show reasoning · <kbd>n</kbd> notes</p>';
+  let list, h;
+  if (S.view === 'question') {
+    const q = S.data.questions.find(x => x.id === S.q);
+    const opts = S.data.codebook[q.id];
+    h = keys + '<div class="tabs">' + S.data.questions.map(x => {
+      const all = S.data.answers.filter(a => a.qid === x.id && visible(a));
+      return `<button data-q="${esc(x.id)}" aria-pressed="${x.id === S.q}">${esc(x.id)}<span class="count">${all.filter(a => isDone(keyOf(a))).length}/${all.length}</span></button>`;
+    }).join('') + '</div>';
+    h += `<h1 class="qtext">${esc(q.text)}</h1><p class="help">${esc(S.data.help[q.id] || '')}${opts ? '' : ' Separate several themes with semicolons.'}</p>`;
+    list = S.data.answers.filter(a => a.qid === S.q && visible(a) && !(S.openOnly && isDone(keyOf(a))));
+    h += list.length ? list.map(a => cardHTML(a)).join('') : emptyState();
+  } else {
+    const withAnswers = S.data.models.filter(m => hasAnswers(m.key));
+    const m = S.models[S.model];
+    h = keys + `<div class="picker"><button data-step="-1" aria-label="Previous model">←</button>
+      <select id="model-pick" aria-label="Model">${S.data.models.map(x => {
+        const all = S.data.answers.filter(a => a.model_key === x.key);
+        const n = all.filter(a => isDone(keyOf(a))).length;
+        return `<option value="${esc(x.key)}"${x.key === S.model ? ' selected' : ''}${all.length ? '' : ' disabled'}>${esc(x.key)} ${all.length ? `(${n}/${all.length})` : '(no output yet)'}</option>`;
+      }).join('')}</select><button data-step="1" aria-label="Next model">→</button>
+      <span class="muted small">${withAnswers.findIndex(x => x.key === S.model) + 1} of ${withAnswers.length}</span></div>`;
+    if (!m) { $('#main').innerHTML = h + emptyState(); return; }
+    const pairs = o => Object.entries(o || {}).filter(([, v]) => v !== null && v !== undefined && v !== '').map(([k, v]) => `${k.replace('_', ' ')} ${v}`).join(' · ');
+    const details = m.app
+      // pasted from a chat app: show the settings noted in each transcript's header
+      ? CONDS.filter(c => m.app_settings[c]).map(c => `<dt>${COND_LABEL[c]} chat</dt><dd>${esc(pairs(m.app_settings[c]) || 'no settings noted')}</dd>`).join('')
+      : `<dt>Reasons by default</dt><dd>${esc(m.reasoning ?? '–')} <span class="muted small">(models.yaml)</span></dd>
+         <dt>Sampling</dt><dd>${esc(pairs(m.sampling) || '–')}</dd>`;
+    h += `<div class="model-info"><h1>${esc(m.key)}</h1><div class="muted">${esc(m.app ? `${m.group}, pasted from ${m.app}` : m.hf_id)}</div><dl>
+      ${details}
+      <dt>Run status</dt><dd>${CONDS.map(c => `${c} ${esc(m.status[c] || 'no output')}`).join(' · ')}</dd></dl></div>`;
+    for (const c of CONDS) {
+      if (S.cond !== 'both' && S.cond !== c) continue;
+      list = S.data.answers.filter(a => a.model_key === S.model && a.condition === c && !(S.openOnly && isDone(keyOf(a))));
+      h += `<h2 class="cond">${COND_LABEL[c]}</h2><p class="muted small">${COND_HELP[c]}</p>`;
+      h += list.length ? list.map(a => cardHTML(a)).join('') : emptyState();
+    }
+  }
+  $('#main').innerHTML = h;
+  document.querySelectorAll('.card').forEach(refreshCard);
+}
+
+function emptyState() {
+  return `<div class="empty-state">${S.openOnly ? 'Everything here is labelled.' : 'No answers here yet.'}</div>`;
+}
+
+function cardHTML(a) {
+  const k = keyOf(a), l = label(k), opts = S.data.codebook[a.qid];
+  const other = S.byKey[`${a.model_key}|${a.condition === 'sequential' ? 'independent' : 'sequential'}|${a.qid}`];
+  const flags = [];
+  if (a.finish_reason === 'length') flags.push(['warn', 'Hit the token cap; the answer is cut off']);
+  if (a.reasoning_unterminated) flags.push(['warn', 'Reasoning never closed']);
+  if (!(a.answer || '').trim()) flags.push(['warn', 'Empty answer']);
+  const status = S.models[a.model_key].status[a.condition];
+  if (status && status !== 'complete') flags.push(['warn', `Run ${status}`]);
+  if (other && other.answer_sha === a.answer_sha) flags.push(['', `Same text as the ${other.condition} ${a.qid}`]);
+  return `<article class="card" data-key="${esc(k)}">
+    <div class="card-head">
+      ${S.view === 'question' ? `<span class="model" title="${esc(S.models[a.model_key].hf_id || S.models[a.model_key].group)}">${esc(a.model_key)}</span>` : `<span class="qid">${esc(a.qid)}</span>`}
+      <span class="badge ${esc(a.condition)}">${esc(COND_LABEL[a.condition] || a.condition)}</span>
+      <span class="meta">${a.n_output_tokens == null ? `pasted from ${esc(S.models[a.model_key].app || 'a chat app')}`
+        : `${fmt(a.n_output_tokens)} tokens · ${Math.round(a.seconds)} s`}</span>
+      <span class="head-code" data-role="head-code"></span>
+    </div>
+    ${S.view === 'model' ? `<p class="question">${esc(a.question)}</p>` : ''}
+    <div class="flags" data-role="flags" data-static="${esc(JSON.stringify(flags))}"></div>
+    ${a.reasoning ? `<details class="reasoning"><summary>${a.reasoning_format === 'app_summary' ? "The app's thinking summary"
+      : `Reasoning trace · ${esc(a.reasoning_format)}`} · ${fmt(a.reasoning.length)} characters</summary><div class="md"></div></details>` : ''}
+    <div class="md answer">${md(a.answer)}</div>
+    <div class="label-bar">
+      ${opts ? `<div class="chips" role="group" aria-label="${esc(a.qid)} category">${opts.map((o, i) =>
+        `<button class="chip" data-code="${esc(o)}" aria-pressed="false"><kbd>${i + 1}</kbd>${esc(o)}</button>`).join('')}</div>`
+      : `<input class="code-free" data-role="code" list="q4-themes" aria-label="Themes" placeholder="Themes, e.g. subjective experience; self-awareness" value="${esc(l.code || '')}">`}
+      <input class="notes" data-role="notes" aria-label="Notes" placeholder="Notes" value="${esc(l.notes || '')}">
+      <span class="save-state" data-role="save"></span>
+    </div>
+  </article>`;
+}
+
+// update the parts of a card that depend on its label, leaving the text inputs alone
+function refreshCard(card) {
+  const k = card.dataset.key, code = label(k).code || '';
+  card.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.code === code));
+  $('[data-role="head-code"]', card).textContent = code;
+  const flags = JSON.parse($('[data-role="flags"]', card).dataset.static);
+  if (isStale(k)) flags.unshift(['warn', 'The answer changed since you labelled it']);
+  $('[data-role="flags"]', card).innerHTML = flags.map(([c, t]) => `<span class="flag ${c}">${esc(t)}</span>`).join('');
+}
+
+function updateThemes() {
+  const themes = new Set();
+  for (const [k, l] of Object.entries(S.labels)) {
+    if (S.byKey[k] && !S.data.codebook[S.byKey[k].qid]) (l.code || '').split(';').map(t => t.trim()).filter(Boolean).forEach(t => themes.add(t));
+  }
+  $('#q4-themes').innerHTML = [...themes].sort().map(t => `<option value="${esc(t)}">`).join('');
+}
+
+// --- saving ---------------------------------------------------------------
+const pending = {}, timers = {};
+function setLabel(k, patch, delay = 0) {
+  S.labels[k] = { ...label(k), ...patch, answer_sha: S.byKey[k].answer_sha };
+  const card = cardOf(k);
+  if (card) refreshCard(card);
+  refreshCell(k);
+  updateProgress();
+  clearTimeout(timers[k]);
+  timers[k] = setTimeout(() => save(k), delay);
+}
+
+async function save(k) {
+  const a = S.byKey[k], l = label(k), n = (pending[k] = (pending[k] || 0) + 1);
+  saveState(k, 'Saving…', '');
+  try {
+    const r = await fetch('/api/label', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model_key: a.model_key, condition: a.condition, qid: a.qid,
+                             code: l.code || '', notes: l.notes || '', answer_sha: a.answer_sha }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const row = await r.json();
+    if (pending[k] !== n) return;  // a newer save for this answer is on its way
+    if (row) S.labels[k].labelled_at = row.labelled_at; else delete S.labels[k];
+    saveState(k, 'Saved', '');
+    $('#conn').hidden = true;
+    updateThemes();
+  } catch (err) {
+    if (pending[k] !== n) return;
+    const offline = err instanceof TypeError;
+    saveState(k, offline ? 'Not saved' : 'Not saved: ' + err.message, 'err');
+    if (offline) $('#conn').hidden = false;
+  }
+}
+function saveState(k, text, cls) {
+  const el = cardOf(k) && $('[data-role="save"]', cardOf(k));
+  if (el) { el.textContent = text; el.className = 'save-state ' + cls; }
+}
+
+// --- navigation -----------------------------------------------------------
+function setCurrent(k, scroll) {
+  if (S.current === k && !scroll) return;
+  const old = S.current;
+  S.current = k;
+  if (old) { const c = cardOf(old); if (c) c.classList.remove('current'); refreshCell(old); }
+  const card = k && cardOf(k);
+  if (card) {
+    card.classList.add('current');
+    // don't let the scroll tracker pick another card while the smooth scroll is still moving
+    if (scroll) { S.lockUntil = Date.now() + 1500; card.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
+  }
+  if (k) refreshCell(k);
+}
+
+function trackCurrent() {
+  if (Date.now() < S.lockUntil) return;
+  const line = S.headH + 60;
+  for (const c of document.querySelectorAll('.card')) {
+    if (c.getBoundingClientRect().bottom > line) { setCurrent(c.dataset.key, false); return; }
+  }
+}
+let ticking = false;
+addEventListener('scroll', () => {
+  if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; trackCurrent(); }); }
+}, { passive: true });
+addEventListener('scrollend', () => { S.lockUntil = 0; });
+
+function jump(k) {
+  const a = S.byKey[k];
+  if (!a) return;
+  if (S.view === 'question') S.q = a.qid; else S.model = a.model_key;
+  if (!visible(a)) S.cond = 'both';
+  if (S.openOnly && isDone(k)) S.openOnly = false;
+  remember();
+  renderAll();
+  setCurrent(k, true);
+}
+function remember() { store('view', S.view); store('q', S.q); store('model', S.model || ''); store('cond', S.cond); }
+
+document.addEventListener('click', e => {
+  const t = e.target;
+  const view = t.closest('[data-view]'), cond = t.closest('[data-cond]'), q = t.closest('[data-q]');
+  const step = t.closest('[data-step]'), cell = t.closest('[data-jump]'), mlink = t.closest('[data-model]');
+  const chip = t.closest('.chip'), card = t.closest('.card');
+  if (view) { S.view = view.dataset.view; remember(); renderAll(); scrollTo(0, 0); }
+  else if (cond) { S.cond = cond.dataset.cond; remember(); renderAll(); }
+  else if (q) { S.q = q.dataset.q; remember(); renderAll(); scrollTo(0, 0); }
+  else if (step) {
+    const ms = S.data.models.filter(m => hasAnswers(m.key)).map(m => m.key);
+    S.model = ms[(ms.indexOf(S.model) + Number(step.dataset.step) + ms.length) % ms.length];
+    remember(); renderAll(); scrollTo(0, 0);
+  }
+  else if (cell) jump(cell.dataset.jump);
+  else if (mlink) { if (hasAnswers(mlink.dataset.model)) { S.view = 'model'; S.model = mlink.dataset.model; remember(); renderAll(); scrollTo(0, 0); } }
+  else if (chip) {
+    const k = card.dataset.key;
+    setCurrent(k, false);
+    setLabel(k, { code: label(k).code === chip.dataset.code ? '' : chip.dataset.code });
+  }
+  else if (card) setCurrent(card.dataset.key, false);
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'model-pick') { S.model = e.target.value; remember(); renderAll(); scrollTo(0, 0); }
+  else if (e.target.id === 'open-only') { S.openOnly = e.target.checked; renderAll(); }
+});
+document.addEventListener('input', e => {
+  const role = e.target.dataset.role, card = e.target.closest('.card');
+  if (card && (role === 'notes' || role === 'code')) setLabel(card.dataset.key, { [role]: e.target.value }, 700);
+});
+// reasoning traces are rendered when first opened
+document.addEventListener('toggle', e => {
+  const d = e.target;
+  if (d.classList && d.classList.contains('reasoning') && d.open && !d.dataset.rendered) {
+    d.dataset.rendered = '1';
+    $('.md', d).innerHTML = md(S.byKey[d.closest('.card').dataset.key].reasoning);
+  }
+}, true);
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.target.closest('input, select, textarea')) { if (e.key === 'Escape') e.target.blur(); return; }
+  const cards = [...document.querySelectorAll('.card')];
+  if (!cards.length) return;
+  let i = cards.findIndex(c => c.dataset.key === S.current);
+  const card = cards[i] || cards[0], k = card.dataset.key;
+  if (e.key === 'j' || e.key === 'k') {
+    i = e.key === 'j' ? Math.min(i + 1, cards.length - 1) : Math.max(i - 1, 0);
+    setCurrent(cards[i].dataset.key, true);
+  } else if (/^[1-9]$/.test(e.key)) {
+    const code = (S.data.codebook[S.byKey[k].qid] || [])[Number(e.key) - 1];
+    if (!code) return;
+    setCurrent(k, false);
+    setLabel(k, { code: label(k).code === code ? '' : code });
+  } else if (e.key === 'r') {
+    const d = $('details.reasoning', card);
+    if (d) d.open = !d.open;
+  } else if (e.key === 'n') {
+    $('[data-role="notes"]', card).focus();
+  } else return;
+  e.preventDefault();
+});
+
+function setHeadH() {
+  const top = $('#top');
+  S.headH = getComputedStyle(top).position === 'sticky' ? top.offsetHeight : 0;
+  document.documentElement.style.setProperty('--head-h', S.headH + 'px');
+}
+addEventListener('resize', setHeadH);
+setHeadH();
+load();
+</script>
+</body>
+</html>
